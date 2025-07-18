@@ -1,0 +1,26 @@
+services:
+  db:
+    container_name: postgres-spring-boot-demo
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: robert23
+      POSTGRES_PASSWORD: wal2313
+      POSTGRES_DB: animal-shelter
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+        # Optional: make exposed port "5332:5432
+        - "5332:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+# If you have more than one container and want them to communicate through
+# same network
+networks:
+  db:
+      driver: bridge
+
+volumes:
+  db:
