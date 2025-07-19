@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.adoptions;
+package dev.robert.spring_boot.animal_shelter_spring.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
