@@ -40,4 +40,9 @@ public abstract class ServiceBase<ENTITY, REQDTO, RESDTO, ID> implements Service
         ENTITY savedentity = getRepository().save(entity);
         return getMapper().toDTO(savedentity);
     }
+
+    @Override
+    public boolean existsById(ID id){
+        return getRepository().existsById(id);
+    }
 }

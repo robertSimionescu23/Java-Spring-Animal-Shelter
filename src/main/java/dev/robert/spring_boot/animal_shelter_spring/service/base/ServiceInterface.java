@@ -8,4 +8,5 @@ public interface ServiceInterface<ENTITY, REQDTO, RESDTO, ID> {
     RESDTO findById(ID id);
     List<RESDTO> findAll();
     void deleteById(ID id);
+    boolean existsById(ID id);
 }

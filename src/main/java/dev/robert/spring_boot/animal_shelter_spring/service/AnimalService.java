@@ -11,7 +11,6 @@ import dev.robert.spring_boot.animal_shelter_spring.repository.AdoptionRepositor
 import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceBase;
 
-//TODO: Add update method
 @Service
 public class AnimalService extends ServiceBase<Animal, AnimalDTO, AnimalDTO, Integer>{
 

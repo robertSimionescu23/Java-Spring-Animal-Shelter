@@ -6,20 +6,24 @@ import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 
 @Entity
 public class Adoption {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
+    @NotNull
     private LocalDate date;
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AdoptionStatus status;
     @NotBlank
