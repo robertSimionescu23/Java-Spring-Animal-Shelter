@@ -1,7 +1,6 @@
-package dev.robert.spring_boot.animal_shelter_spring.animal;
+package dev.robert.spring_boot.animal_shelter_spring.model;
 
-import dev.robert.spring_boot.animal_shelter_spring.adoptions.Adoption;
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,10 +18,13 @@ public class Animal {
 
     @NotBlank(message = "Name needed")
     private String name;
+
     @Min(value = 0, message = "Age must be positive")
     private Integer age;
+
     @NotBlank
     private String species;
+
     @OneToOne(optional = true)
     @JoinColumn(name = "adoption_id", nullable = true)
     private Adoption adoption;
@@ -87,6 +89,12 @@ public class Animal {
         } else if (!age.equals(other.age))
             return false;
         return true;
+    }
+    public Adoption getAdoption() {
+        return adoption;
+    }
+    public void setAdoption(Adoption adoption) {
+        this.adoption = adoption;
     }
     public String getSpecies() {
         return species;
