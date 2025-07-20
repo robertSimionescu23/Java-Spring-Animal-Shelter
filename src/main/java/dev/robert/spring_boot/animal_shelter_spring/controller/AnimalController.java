@@ -12,7 +12,12 @@ import dev.robert.spring_boot.animal_shelter_spring.service.AnimalService;
 
 @RestController
 @RequestMapping("api/v1/animal")
-public class AnimalController extends ControllerBase<Animal, AnimalDTO, AnimalDTO, Integer>{
+public class AnimalController extends ControllerBase<
+    Animal,
+    AnimalDTO,
+    AnimalDTO,
+    Integer
+>{
 
     private final AnimalService animalService;
 

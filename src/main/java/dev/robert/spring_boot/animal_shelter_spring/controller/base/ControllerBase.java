@@ -10,9 +10,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
 import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceInterface;
 
-public abstract class ControllerBase<ENTITY, REQDTO, RESDTO, ID> implements ControllerInterface<ENTITY, REQDTO, RESDTO, ID>{
+public abstract class ControllerBase<
+    ENTITY,
+    REQDTO extends DTOInterface<ID>,
+    RESDTO extends DTOInterface<ID>,
+    ID
+> implements ControllerInterface<
+    ENTITY,
+    REQDTO,
+    RESDTO,
+    ID
+>{
     protected abstract ServiceInterface<ENTITY, REQDTO, RESDTO, ID> getService();
 
     @PostMapping
@@ -23,7 +34,7 @@ public abstract class ControllerBase<ENTITY, REQDTO, RESDTO, ID> implements Cont
         );
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable ID id) {
         if(getService().existsById(id)){
@@ -41,7 +52,7 @@ public abstract class ControllerBase<ENTITY, REQDTO, RESDTO, ID> implements Cont
         );
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @Override
     public ResponseEntity<RESDTO> findById(@PathVariable ID id) {
         return ResponseEntity.ok(
@@ -49,10 +60,13 @@ public abstract class ControllerBase<ENTITY, REQDTO, RESDTO, ID> implements Cont
         );
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @Override
     public ResponseEntity<RESDTO> update(@PathVariable ID id, @RequestBody REQDTO req) {
-         if(getService().existsById(id)){
+        //Add the id if it's not in the body as well
+        if (req.getId() == null)
+            req.setId(id);
+        if(getService().existsById(id)){
              return ResponseEntity.ok(
                 getService().save(req)
             );

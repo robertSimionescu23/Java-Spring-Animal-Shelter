@@ -1,6 +1,8 @@
 package dev.robert.spring_boot.animal_shelter_spring.dto;
 
-public class AnimalDTO {
+import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
+
+public class AnimalDTO implements DTOInterface<Integer>{
     private Integer id;
     private String name;
     private Integer age;

@@ -11,7 +11,12 @@ import dev.robert.spring_boot.animal_shelter_spring.service.AdoptionService;
 
 @RestController
 @RequestMapping("api/v1/adoption")
-public class AdoptionController extends ControllerBase<Adoption, AdoptionRequestDTO, AdoptionResponseDTO, Integer>{
+public class AdoptionController extends ControllerBase<
+    Adoption,
+    AdoptionRequestDTO,
+    AdoptionResponseDTO,
+    Integer
+>{
     private AdoptionService adoptionService;
 
     public AdoptionController(AdoptionService adoptionService) {
