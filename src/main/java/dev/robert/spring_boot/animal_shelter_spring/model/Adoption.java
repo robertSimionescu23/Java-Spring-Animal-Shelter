@@ -3,6 +3,7 @@ package dev.robert.spring_boot.animal_shelter_spring.model;
 import java.time.LocalDate;
 
 import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 
@@ -29,6 +31,7 @@ public class Adoption {
     @NotBlank
     private String adopterName;
     @NotBlank
+    @Size(min = 13, max = 13, message = "CNP must be exactly 13 characters")
     private String adopterCnp;
     @OneToOne(optional = false)
     @JoinColumn(name = "animal_id", nullable = false, unique = true)

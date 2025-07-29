@@ -1,6 +1,7 @@
 package dev.robert.spring_boot.animal_shelter_spring.model;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Animal {
     @NotBlank
     private String species;
 
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "adoption_id", nullable = true)
     private Adoption adoption;
 
