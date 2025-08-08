@@ -29,9 +29,7 @@ public class Adoption {
     private AdoptionStatus status;
     @NotBlank
     private String adopterName;
-    @NotBlank
-    @Size(min = 13, max = 13, message = "CNP must be exactly 13 characters")
-    private String adopterCnp;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "animal_id", nullable = false, unique = true)
     private Animal animal;
@@ -53,7 +51,6 @@ public class Adoption {
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((adopterName == null) ? 0 : adopterName.hashCode());
-        result = prime * result + ((adopterCnp == null) ? 0 : adopterCnp.hashCode());
         result = prime * result + ((animal == null) ? 0 : animal.hashCode());
         return result;
     }
@@ -83,11 +80,6 @@ public class Adoption {
                 return false;
         } else if (!adopterName.equals(other.adopterName))
             return false;
-        if (adopterCnp == null) {
-            if (other.adopterCnp != null)
-                return false;
-        } else if (!adopterCnp.equals(other.adopterCnp))
-            return false;
         if (animal == null) {
             if (other.animal != null)
                 return false;
@@ -109,12 +101,6 @@ public class Adoption {
     }
     public void setAdopterName(String adopterName) {
         this.adopterName = adopterName;
-    }
-    public String getAdopterCnp() {
-        return adopterCnp;
-    }
-    public void setAdopterCnp(String adopterCnp) {
-        this.adopterCnp = adopterCnp;
     }
     public Animal getAnimal() {
         return animal;

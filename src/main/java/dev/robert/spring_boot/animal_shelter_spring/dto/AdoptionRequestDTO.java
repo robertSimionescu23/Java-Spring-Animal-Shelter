@@ -9,7 +9,6 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     private LocalDate date;
     private AdoptionStatus status;
     private String adopterName;
-    private String adopterCnp;
     private Long animalId;
 
     public AdoptionRequestDTO() {
@@ -19,7 +18,6 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
         this.date = date;
         this.status = status;
         this.adopterName = adopterName;
-        this.adopterCnp = adopterCnp;
         this.animalId = animalId;
     }
     public LocalDate getDate() {
@@ -39,12 +37,6 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     }
     public void setAdopterName(String adopterName) {
         this.adopterName = adopterName;
-    }
-    public String getAdopterCnp() {
-        return adopterCnp;
-    }
-    public void setAdopterCnp(String adopterCnp) {
-        this.adopterCnp = adopterCnp;
     }
     public Long getAnimalId() {
         return animalId;

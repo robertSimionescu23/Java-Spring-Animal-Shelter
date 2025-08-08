@@ -29,7 +29,6 @@ public class AdoptionMapper implements MapperInterface<
         adoption.setDate(dto.getDate());
         adoption.setStatus(dto.getStatus());
         adoption.setAdopterName(dto.getAdopterName());
-        adoption.setAdopterCnp(dto.getAdopterCnp());
         adoption.setStatus(dto.getStatus());
         Animal animal = getAnimalRepository().findById(dto.getAnimalId())
             .orElseThrow(() -> new ResourceNotFoundException("There is no animal with the specified ID"));
@@ -44,7 +43,6 @@ public class AdoptionMapper implements MapperInterface<
         dto.setId(adoption.getId());
         dto.setDate(adoption.getDate());
         dto.setStatus(adoption.getStatus());
-        dto.setAdopterName(adoption.getAdopterName());
         dto.setAnimalId(adoption.getAnimal().getId());
 
         return dto;
