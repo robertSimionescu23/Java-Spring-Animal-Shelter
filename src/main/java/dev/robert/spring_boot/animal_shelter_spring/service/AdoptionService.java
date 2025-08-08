@@ -14,7 +14,12 @@ import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceBase;
 
 @Service
-public class AdoptionService extends ServiceBase<Adoption, AdoptionRequestDTO, AdoptionResponseDTO, Integer>{
+public class AdoptionService extends ServiceBase<
+    Adoption,
+    AdoptionRequestDTO,
+    AdoptionResponseDTO,
+    Long
+>{
 
     private final AdoptionRepository adoptionRepository;
     private final AnimalRepository animalRepository;
@@ -32,7 +37,7 @@ public class AdoptionService extends ServiceBase<Adoption, AdoptionRequestDTO, A
     }
 
     @Override
-    protected JpaRepository<Adoption, Integer> getRepository(){
+    protected JpaRepository<Adoption, Long> getRepository(){
         return adoptionRepository;
     }
 

@@ -15,7 +15,7 @@ public class AdoptionController extends ControllerBase<
     Adoption,
     AdoptionRequestDTO,
     AdoptionResponseDTO,
-    Integer
+    Long
 >{
     private AdoptionService adoptionService;
 

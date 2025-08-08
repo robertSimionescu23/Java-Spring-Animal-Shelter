@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Name needed")
     private String name;
@@ -30,10 +30,10 @@ public class Animal {
     @JoinColumn(name = "adoption_id", nullable = true)
     private Adoption adoption;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -51,7 +51,7 @@ public class Animal {
 
     public Animal() {
     }
-    public Animal(Integer id, String name, Integer age, Integer adoptionID) {
+    public Animal(Long id, String name, Integer age, Integer adoptionID) {
         this.id = id;
         this.name = name;
         this.age = age;

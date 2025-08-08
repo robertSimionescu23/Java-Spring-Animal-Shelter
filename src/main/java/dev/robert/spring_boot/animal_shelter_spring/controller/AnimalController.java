@@ -16,7 +16,7 @@ public class AnimalController extends ControllerBase<
     Animal,
     AnimalDTO,
     AnimalDTO,
-    Integer
+    Long
 >{
 
     private final AnimalService animalService;

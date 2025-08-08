@@ -11,7 +11,11 @@ import dev.robert.spring_boot.animal_shelter_spring.repository.AdoptionRepositor
 
 
 @Component
-public class AnimalMapper implements MapperInterface<AnimalDTO, AnimalDTO, Animal>{
+public class AnimalMapper implements MapperInterface<
+    AnimalDTO,
+    AnimalDTO,
+    Animal
+>{
     private final AdoptionRepository adoptionRepository;
 
 

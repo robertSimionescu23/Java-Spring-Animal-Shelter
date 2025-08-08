@@ -3,32 +3,24 @@ package dev.robert.spring_boot.animal_shelter_spring.dto;
 import java.time.LocalDate;
 
 import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
-import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
+import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOBase;
 
-public class AdoptionRequestDTO implements DTOInterface<Integer>{
-    private Integer id;
+public class AdoptionRequestDTO extends DTOBase<Long>{
     private LocalDate date;
     private AdoptionStatus status;
     private String adopterName;
     private String adopterCnp;
-    private Integer animalId;
+    private Long animalId;
 
     public AdoptionRequestDTO() {
     }
-    public AdoptionRequestDTO(Integer id, LocalDate date, AdoptionStatus status, String adopterName, String adopterCnp,
-            Integer animalId) {
-        this.id = id;
+    public AdoptionRequestDTO(LocalDate date, AdoptionStatus status, String adopterName, String adopterCnp,
+            Long animalId) {
         this.date = date;
         this.status = status;
         this.adopterName = adopterName;
         this.adopterCnp = adopterCnp;
         this.animalId = animalId;
-    }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
     }
     public LocalDate getDate() {
         return date;
@@ -54,10 +46,10 @@ public class AdoptionRequestDTO implements DTOInterface<Integer>{
     public void setAdopterCnp(String adopterCnp) {
         this.adopterCnp = adopterCnp;
     }
-    public Integer getAnimalId() {
+    public Long getAnimalId() {
         return animalId;
     }
-    public void setAnimalId(Integer animalId) {
+    public void setAnimalId(Long animalId) {
         this.animalId = animalId;
     }
 

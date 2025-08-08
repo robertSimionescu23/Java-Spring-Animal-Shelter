@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AnimalShelterSpringApplication {
-    //TODO: Add image handling for animal entitites
+    //TODO: Add extension handling
     //TODO: Add authentification
     public static void main(String[] args) {
         SpringApplication.run(AnimalShelterSpringApplication.class, args);

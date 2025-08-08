@@ -12,13 +12,18 @@ import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceBase;
 
 @Service
-public class AnimalService extends ServiceBase<Animal, AnimalDTO, AnimalDTO, Integer>{
+public class AnimalService extends ServiceBase<
+    Animal,
+    AnimalDTO,
+    AnimalDTO,
+    Long
+>{
 
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
 
     @Override
-    protected JpaRepository<Animal, Integer> getRepository(){
+    protected JpaRepository<Animal, Long> getRepository(){
         return animalRepository;
     }
 

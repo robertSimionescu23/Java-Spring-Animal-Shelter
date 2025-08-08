@@ -3,7 +3,6 @@ package dev.robert.spring_boot.animal_shelter_spring.model;
 import java.time.LocalDate;
 
 import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,7 +21,7 @@ import jakarta.validation.constraints.Size;
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @NotNull
     private LocalDate date;
     @NotNull
@@ -37,10 +36,10 @@ public class Adoption {
     @JoinColumn(name = "animal_id", nullable = false, unique = true)
     private Animal animal;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public LocalDate getDate() {
