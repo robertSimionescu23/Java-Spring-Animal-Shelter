@@ -28,14 +28,17 @@ It aims to provide a smooth user experience, but also easy management and monito
 		- Adopter Name (It should not be accessible to the public)
 		- Animal Id (For linking purposes)
 	- This is modeled in the PostgresSQL database  running in the docker container using JPA
-2. ## Handle image upload on an per animal basis, by authorized personnel only
-3. ## Showcase Animals based on categories (More traits may be added)
+
+
+2. ## Showcase Animals based on categories (More traits may be added)
     - For example, offer category for senior animals, or younger animals.
     - Enable searching for certain ages of animals, species etc.
 
-4.  ## Have a system that allows authorized persons to upload images, handle animal data, but not users
+3.  ## Have a system that allows authorized persons to upload images, handle animal data, but not users
     - Different table containing encoded passwords and usernames
     - Access login page with special url (So regular users can't stumble naturally on the login)
+
+4. ## Handle image upload on an per animal basis, by authorized personnel only
 
 5. ## Schedule visits for animals, schedule adoption meetings
 	- Calendar for meetings and adoptions
