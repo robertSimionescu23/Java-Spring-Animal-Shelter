@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.controller.base;
+package dev.robert.spring_boot.animal_shelter_spring.base.classes;
 
 import java.util.List;
 
@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
-import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ControllerInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ServiceInterface;
 
 public abstract class ControllerBase<
     ENTITY,

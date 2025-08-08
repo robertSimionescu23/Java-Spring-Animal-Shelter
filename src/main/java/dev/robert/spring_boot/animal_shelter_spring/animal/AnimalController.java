@@ -1,13 +1,9 @@
-package dev.robert.spring_boot.animal_shelter_spring.controller;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.robert.spring_boot.animal_shelter_spring.controller.base.ControllerBase;
-import dev.robert.spring_boot.animal_shelter_spring.dto.AnimalDTO;
-import dev.robert.spring_boot.animal_shelter_spring.mapper.AnimalMapper;
-import dev.robert.spring_boot.animal_shelter_spring.model.Animal;
-import dev.robert.spring_boot.animal_shelter_spring.service.AnimalService;
+import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
 
 
 @RestController

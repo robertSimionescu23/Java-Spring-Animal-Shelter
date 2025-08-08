@@ -1,6 +1,6 @@
-package dev.robert.spring_boot.animal_shelter_spring.dto;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
 
 public class AnimalDTO implements DTOInterface<Long>{
     private Long id;

@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.controller.base;
+package dev.robert.spring_boot.animal_shelter_spring.base.interfaces;
 
 import org.springframework.http.ResponseEntity;
 import java.util.List;

@@ -1,6 +1,7 @@
-package dev.robert.spring_boot.animal_shelter_spring.model;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 
+import dev.robert.spring_boot.animal_shelter_spring.adoption.Adoption;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +30,10 @@ public class Animal {
     @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "adoption_id", nullable = true)
     private Adoption adoption;
+
+    // TODO: add a field that contains a list of all picture urls
+    // TODO: Handle images received by request, by saving them to the new images folder. Download is not necessay, as they are only to be displayed
+    // Make sure that deleting from the url list, deletes the image from the file server
 
     public Long getId() {
         return id;

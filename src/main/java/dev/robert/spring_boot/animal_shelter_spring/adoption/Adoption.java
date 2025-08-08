@@ -1,8 +1,8 @@
-package dev.robert.spring_boot.animal_shelter_spring.model;
+package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
 
-import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
+import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 
 
@@ -26,7 +25,7 @@ public class Adoption {
     private LocalDate date;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AdoptionStatus status;
+    private AdoptionStatusEnum status;
     @NotBlank
     private String adopterName;
 
@@ -90,10 +89,10 @@ public class Adoption {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-    public AdoptionStatus getStatus() {
+    public AdoptionStatusEnum getStatus() {
         return status;
     }
-    public void setStatus(AdoptionStatus status) {
+    public void setStatus(AdoptionStatusEnum status) {
         this.status = status;
     }
     public String getAdopterName() {

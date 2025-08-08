@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.service.base;
+package dev.robert.spring_boot.animal_shelter_spring.base.interfaces;
 
 import java.util.List;
 

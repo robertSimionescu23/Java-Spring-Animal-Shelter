@@ -1,4 +1,6 @@
-package dev.robert.spring_boot.animal_shelter_spring.dto.base;
+package dev.robert.spring_boot.animal_shelter_spring.base.classes;
+
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
 
 public class DTOBase<ID> implements DTOInterface<ID>{
     ID id;

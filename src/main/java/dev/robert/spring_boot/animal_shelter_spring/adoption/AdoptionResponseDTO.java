@@ -1,9 +1,8 @@
-package dev.robert.spring_boot.animal_shelter_spring.dto;
+package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
 
-import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
-import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOBase;
+import dev.robert.spring_boot.animal_shelter_spring.base.classes.DTOBase;
 
 public class AdoptionResponseDTO extends DTOBase<Long>{
     private LocalDate date;

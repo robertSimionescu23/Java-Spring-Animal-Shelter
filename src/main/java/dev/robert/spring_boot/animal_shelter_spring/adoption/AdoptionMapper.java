@@ -1,14 +1,11 @@
-package dev.robert.spring_boot.animal_shelter_spring.mapper;
+package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import org.springframework.stereotype.Component;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.AdoptionRequestDTO;
-import dev.robert.spring_boot.animal_shelter_spring.dto.AdoptionResponseDTO;
+import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
+import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundException;
-import dev.robert.spring_boot.animal_shelter_spring.mapper.base.MapperInterface;
-import dev.robert.spring_boot.animal_shelter_spring.model.Adoption;
-import dev.robert.spring_boot.animal_shelter_spring.model.Animal;
-import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 
 @Component
 public class AdoptionMapper implements MapperInterface<

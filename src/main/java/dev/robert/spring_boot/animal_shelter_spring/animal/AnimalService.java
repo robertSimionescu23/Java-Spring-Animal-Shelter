@@ -1,15 +1,11 @@
-package dev.robert.spring_boot.animal_shelter_spring.service;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.AnimalDTO;
-import dev.robert.spring_boot.animal_shelter_spring.mapper.AnimalMapper;
-import dev.robert.spring_boot.animal_shelter_spring.mapper.base.MapperInterface;
-import dev.robert.spring_boot.animal_shelter_spring.model.Animal;
-import dev.robert.spring_boot.animal_shelter_spring.repository.AdoptionRepository;
-import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
-import dev.robert.spring_boot.animal_shelter_spring.service.base.ServiceBase;
+import dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionRepository;
+import dev.robert.spring_boot.animal_shelter_spring.base.classes.ServiceBase;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 
 @Service
 public class AnimalService extends ServiceBase<
