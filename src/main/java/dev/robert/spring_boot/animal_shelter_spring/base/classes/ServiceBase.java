@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.service.base;
+package dev.robert.spring_boot.animal_shelter_spring.base.classes;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import dev.robert.spring_boot.animal_shelter_spring.mapper.base.MapperInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ServiceInterface;
 
 public abstract class ServiceBase<ENTITY, REQDTO, RESDTO, ID> implements ServiceInterface<ENTITY, REQDTO, RESDTO, ID> {
     protected abstract JpaRepository<ENTITY, ID> getRepository();

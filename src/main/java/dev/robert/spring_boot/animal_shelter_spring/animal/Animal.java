@@ -1,6 +1,8 @@
-package dev.robert.spring_boot.animal_shelter_spring.model;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 
+import dev.robert.spring_boot.animal_shelter_spring.adoption.Adoption;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +16,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Name needed")
     private String name;
@@ -25,14 +27,18 @@ public class Animal {
     @NotBlank
     private String species;
 
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "adoption_id", nullable = true)
     private Adoption adoption;
 
-    public Integer getId() {
+    // TODO: add a field that contains a list of all picture urls
+    // TODO: Handle images received by request, by saving them to the new images folder. Download is not necessay, as they are only to be displayed
+    // Make sure that deleting from the url list, deletes the image from the file server
+
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -50,7 +56,7 @@ public class Animal {
 
     public Animal() {
     }
-    public Animal(Integer id, String name, Integer age, Integer adoptionID) {
+    public Animal(Long id, String name, Integer age, Integer adoptionID) {
         this.id = id;
         this.name = name;
         this.age = age;

@@ -1,8 +1,8 @@
-package dev.robert.spring_boot.animal_shelter_spring.model;
+package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
 
-import dev.robert.spring_boot.animal_shelter_spring.defs.AdoptionStatus;
+import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,24 +20,23 @@ import jakarta.validation.constraints.NotNull;
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @NotNull
     private LocalDate date;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AdoptionStatus status;
+    private AdoptionStatusEnum status;
     @NotBlank
     private String adopterName;
-    @NotBlank
-    private String adopterCnp;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "animal_id", nullable = false, unique = true)
     private Animal animal;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public LocalDate getDate() {
@@ -51,7 +50,6 @@ public class Adoption {
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((adopterName == null) ? 0 : adopterName.hashCode());
-        result = prime * result + ((adopterCnp == null) ? 0 : adopterCnp.hashCode());
         result = prime * result + ((animal == null) ? 0 : animal.hashCode());
         return result;
     }
@@ -81,11 +79,6 @@ public class Adoption {
                 return false;
         } else if (!adopterName.equals(other.adopterName))
             return false;
-        if (adopterCnp == null) {
-            if (other.adopterCnp != null)
-                return false;
-        } else if (!adopterCnp.equals(other.adopterCnp))
-            return false;
         if (animal == null) {
             if (other.animal != null)
                 return false;
@@ -96,10 +89,10 @@ public class Adoption {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-    public AdoptionStatus getStatus() {
+    public AdoptionStatusEnum getStatus() {
         return status;
     }
-    public void setStatus(AdoptionStatus status) {
+    public void setStatus(AdoptionStatusEnum status) {
         this.status = status;
     }
     public String getAdopterName() {
@@ -107,12 +100,6 @@ public class Adoption {
     }
     public void setAdopterName(String adopterName) {
         this.adopterName = adopterName;
-    }
-    public String getAdopterCnp() {
-        return adopterCnp;
-    }
-    public void setAdopterCnp(String adopterCnp) {
-        this.adopterCnp = adopterCnp;
     }
     public Animal getAnimal() {
         return animal;

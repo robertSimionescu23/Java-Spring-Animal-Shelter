@@ -1,17 +1,18 @@
-package dev.robert.spring_boot.animal_shelter_spring.mapper;
+package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import org.springframework.stereotype.Component;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.AdoptionRequestDTO;
-import dev.robert.spring_boot.animal_shelter_spring.dto.AdoptionResponseDTO;
+import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
+import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundException;
-import dev.robert.spring_boot.animal_shelter_spring.mapper.base.MapperInterface;
-import dev.robert.spring_boot.animal_shelter_spring.model.Adoption;
-import dev.robert.spring_boot.animal_shelter_spring.model.Animal;
-import dev.robert.spring_boot.animal_shelter_spring.repository.AnimalRepository;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 
 @Component
-public class AdoptionMapper implements MapperInterface<AdoptionRequestDTO, AdoptionResponseDTO, Adoption>{
+public class AdoptionMapper implements MapperInterface<
+    AdoptionRequestDTO,
+    AdoptionResponseDTO,
+    Adoption
+>{
     public AdoptionMapper(AnimalRepository animalRepository) {
         this.animalRepository = animalRepository;
     }
@@ -25,7 +26,6 @@ public class AdoptionMapper implements MapperInterface<AdoptionRequestDTO, Adopt
         adoption.setDate(dto.getDate());
         adoption.setStatus(dto.getStatus());
         adoption.setAdopterName(dto.getAdopterName());
-        adoption.setAdopterCnp(dto.getAdopterCnp());
         adoption.setStatus(dto.getStatus());
         Animal animal = getAnimalRepository().findById(dto.getAnimalId())
             .orElseThrow(() -> new ResourceNotFoundException("There is no animal with the specified ID"));
@@ -40,7 +40,6 @@ public class AdoptionMapper implements MapperInterface<AdoptionRequestDTO, Adopt
         dto.setId(adoption.getId());
         dto.setDate(adoption.getDate());
         dto.setStatus(adoption.getStatus());
-        dto.setAdopterName(adoption.getAdopterName());
         dto.setAnimalId(adoption.getAnimal().getId());
 
         return dto;

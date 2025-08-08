@@ -1,18 +1,18 @@
-package dev.robert.spring_boot.animal_shelter_spring.dto;
+package dev.robert.spring_boot.animal_shelter_spring.animal;
 
-import dev.robert.spring_boot.animal_shelter_spring.dto.base.DTOInterface;
+import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
 
-public class AnimalDTO implements DTOInterface<Integer>{
-    private Integer id;
+public class AnimalDTO implements DTOInterface<Long>{
+    private Long id;
     private String name;
     private Integer age;
     private String species;
-    private Integer adoptionId;
+    private Long adoptionId;
 
     public AnimalDTO() {
     }
 
-    public AnimalDTO(Integer id, String name, Integer age, String species, Integer adoptionId) {
+    public AnimalDTO(Long id, String name, Integer age, String species, Long adoptionId) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -20,11 +20,11 @@ public class AnimalDTO implements DTOInterface<Integer>{
         this.adoptionId = adoptionId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,11 +52,11 @@ public class AnimalDTO implements DTOInterface<Integer>{
         this.species = species;
     }
 
-    public Integer getAdoptionId() {
+    public Long getAdoptionId() {
         return adoptionId;
     }
 
-    public void setAdoptionId(Integer adoptionId) {
+    public void setAdoptionId(Long adoptionId) {
         this.adoptionId = adoptionId;
     }
 

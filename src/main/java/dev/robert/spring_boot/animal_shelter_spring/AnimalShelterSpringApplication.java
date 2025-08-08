@@ -5,9 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AnimalShelterSpringApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(AnimalShelterSpringApplication.class, args);
-	}
+    //TODO: Add image handling in file system
+    //TODO: Add authentification
+    public static void main(String[] args) {
+        SpringApplication.run(AnimalShelterSpringApplication.class, args);
+    }
 
 }
