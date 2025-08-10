@@ -35,7 +35,7 @@ public abstract class ControllerBase<
         );
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("admin/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable ID id) {
         if(getService().existsById(id)){
@@ -45,7 +45,7 @@ public abstract class ControllerBase<
         else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping
+    @GetMapping("public")
     @Override
     public ResponseEntity<List<RESDTO>> getAll() {
         return ResponseEntity.ok(
@@ -53,7 +53,7 @@ public abstract class ControllerBase<
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("public/{id}")
     @Override
     public ResponseEntity<RESDTO> findById(@PathVariable ID id) {
         return ResponseEntity.ok(
@@ -61,7 +61,7 @@ public abstract class ControllerBase<
         );
     }
 
-    @PutMapping("{id}")
+    @PutMapping("admin/{id}")
     @Override
     public ResponseEntity<RESDTO> update(@PathVariable ID id, @RequestBody REQDTO req) {
         //Add the id if it's not in the body as well

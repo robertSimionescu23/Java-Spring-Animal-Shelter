@@ -3,23 +3,27 @@ package dev.robert.spring_boot.animal_shelter_spring.animal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import org.springframework.http.HttpHeaders;
 
-import org.springframework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.tomcat.util.file.ConfigurationSource.Resource;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 
@@ -32,8 +36,6 @@ public class AnimalController extends ControllerBase<
     Long
 >{
 
-    @Value("${app.images.dir:images}")
-    private String imagesDir;
 
     private final AnimalService animalService;
 
@@ -45,24 +47,51 @@ public class AnimalController extends ControllerBase<
         return animalService;
     }
 
-    @PutMapping("upload/admin/{id}")
-    public String handleImageUpload(@PathVariable String id, @RequestParam MultipartFile image, RedirectAttributes attr, HttpServletResponse response) throws IOException {
-    // public String handleImageUpload(@PathVariable String id, RedirectAttributes attr, HttpServletResponse response) throws IOException{
 
-        Path imagesPath = Paths.get(imagesDir); // from application.properties
-
-        if (!Files.exists(imagesPath)) {                        //If images folder is not found
-           Files.createDirectories(imagesPath);
-        }
-
-        String originalFilename = image.getOriginalFilename();
-        String safeFileName = StringUtils.cleanPath(originalFilename != null ? originalFilename : "uploaded-file");
-        Files.copy(image.getInputStream(), imagesPath.resolve(safeFileName), StandardCopyOption.REPLACE_EXISTING);
-
-
-        attr.addAttribute("id", id); //TODO: Handle adding pictures to animal that does not yet exist
-        return "redirect:/api/v1/animal/{id}";
+    @PatchMapping("admin/patch/{field}/{id}")
+    public ResponseEntity<AnimalResponseDTO> patch(@PathVariable Long id, @PathVariable String field, @RequestBody AnimalRequestDTO req){
+        AnimalResponseDTO response= animalService.patch(id, field, req);
+        return ResponseEntity.ok(response);
     }
 
+    @PutMapping("admin/upload/{id}")
+    public ResponseEntity<AnimalResponseDTO> handleImageUpload(@PathVariable Long id, @RequestParam MultipartFile image, HttpServletResponse servletResponse) throws IOException {
+        AnimalResponseDTO response = animalService.saveImage(id, image);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("public/image/{id}/{fileName}")
+    public ResponseEntity<ByteArrayResource> getImage(@PathVariable Long id, @PathVariable String fileName) throws IOException{
+        byte[] response = animalService.getImage(id, fileName);
+
+        // Infer content type based on file name (simple approach)
+        MediaType mediaType;
+        if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".jpeg")) {
+            mediaType = MediaType.IMAGE_JPEG;
+        } else if (fileName.toLowerCase().endsWith(".png")) {
+            mediaType = MediaType.IMAGE_PNG;
+        } else if (fileName.toLowerCase().endsWith(".gif")) {
+            mediaType = MediaType.IMAGE_GIF;
+        } else {
+            mediaType = MediaType.APPLICATION_OCTET_STREAM; // fallback
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(response);
+        return ResponseEntity.ok()
+            .contentType(mediaType)
+            .contentLength(resource.contentLength())
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    ContentDisposition.inline() // inline instead of attachment
+                            .filename(fileName)
+                            .build().toString())
+            .body(resource);
+    }
+
+
+    @PatchMapping("admin/changePrimaryPic/{id}/{index}")
+    public ResponseEntity<AnimalResponseDTO> changePrimaryPic(@PathVariable Long id, @PathVariable int index) throws FileNotFoundException{
+        AnimalResponseDTO response = animalService.changeFirstImage(id, index);
+        return ResponseEntity.ok(response);
+    }
 
 }

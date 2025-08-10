@@ -45,13 +45,9 @@ public class AnimalRequestDTO implements DTOInterface<Long>{
         return pictureURLs;
     }
 
-
-
     public void setPictureURLs(List<String> pictureURLs) {
         this.pictureURLs = pictureURLs;
     }
-
-
 
     public Long getId() {
         return id;
