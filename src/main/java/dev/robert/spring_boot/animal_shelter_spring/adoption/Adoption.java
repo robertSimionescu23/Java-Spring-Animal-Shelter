@@ -21,14 +21,26 @@ public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     private LocalDate date;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private AdoptionStatusEnum status;
+
     @NotBlank
     private String adopterName;
 
+    @NotBlank
+    private String adopterContact;
+
+    public String getAdopterContact() {
+        return adopterContact;
+    }
+    public void setAdopterContact(String adopterContact) {
+        this.adopterContact = adopterContact;
+    }
     @OneToOne(optional = false)
     @JoinColumn(name = "animal_id", nullable = false, unique = true)
     private Animal animal;
@@ -42,6 +54,7 @@ public class Adoption {
     public LocalDate getDate() {
         return date;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,6 +63,7 @@ public class Adoption {
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((adopterName == null) ? 0 : adopterName.hashCode());
+        result = prime * result + ((adopterContact == null) ? 0 : adopterContact.hashCode());
         result = prime * result + ((animal == null) ? 0 : animal.hashCode());
         return result;
     }
@@ -78,6 +92,11 @@ public class Adoption {
             if (other.adopterName != null)
                 return false;
         } else if (!adopterName.equals(other.adopterName))
+            return false;
+        if (adopterContact == null) {
+            if (other.adopterContact != null)
+                return false;
+        } else if (!adopterContact.equals(other.adopterContact))
             return false;
         if (animal == null) {
             if (other.animal != null)

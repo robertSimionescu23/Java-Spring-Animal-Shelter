@@ -1,5 +1,6 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalRepository;
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ServiceBase;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
+import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundException;
 
 @Service
 public class AdoptionService extends ServiceBase<
@@ -16,14 +18,14 @@ public class AdoptionService extends ServiceBase<
     Long
 >{
 
+    @Autowired private AnimalRepository animalRepository;
     private final AdoptionRepository adoptionRepository;
-    private final AnimalRepository animalRepository;
     private final AdoptionMapper adoptionMapper;
 
-    public AdoptionService(AdoptionRepository adoptionRepository, AdoptionMapper adoptionMapper, AnimalRepository animalRepository) {
+
+    public AdoptionService(AdoptionRepository adoptionRepository, AdoptionMapper adoptionMapper) {
         this.adoptionRepository = adoptionRepository;
         this.adoptionMapper = adoptionMapper;
-        this.animalRepository  = animalRepository;
     }
 
     @Override
@@ -39,10 +41,18 @@ public class AdoptionService extends ServiceBase<
     @Override
     public AdoptionResponseDTO save(AdoptionRequestDTO dto){
         Adoption adoption = getMapper().toEntity(dto);
+
+        // Fetch the Animal entity referenced by animalId in the DTO
+        Animal linkedAnimal = animalRepository.findById(dto.getAnimalId())
+            .orElseThrow(() -> new ResourceNotFoundException("Animal not found with id " + dto.getAnimalId()));
+
+        // Set the Animal reference
+        adoption.setAnimal(linkedAnimal);
+
+        // Save Adoption entity
         Adoption savedAdoption = getRepository().save(adoption);
 
-        //Get the animal linked to the adoption, so it's adoption_id can be updated
-        Animal linkedAnimal = savedAdoption.getAnimal();
+        // Set the adoption entity on referenced animal
         linkedAnimal.setAdoption(savedAdoption);
         animalRepository.save(linkedAnimal);
 

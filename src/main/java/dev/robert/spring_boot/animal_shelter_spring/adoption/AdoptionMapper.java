@@ -1,53 +1,21 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
-import org.springframework.stereotype.Component;
-
-import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
-import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalRepository;
-import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundException;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 
-@Component
-public class AdoptionMapper implements MapperInterface<
+@Mapper(componentModel = "spring")
+public interface AdoptionMapper extends MapperInterface<
     AdoptionRequestDTO,
     AdoptionResponseDTO,
     Adoption
 >{
-    public AdoptionMapper(AnimalRepository animalRepository) {
-        this.animalRepository = animalRepository;
-    }
-
-    private final AnimalRepository animalRepository;
-
     @Override
-    public Adoption toEntity(AdoptionRequestDTO dto){
-        Adoption adoption = new Adoption();
-        adoption.setId(dto.getId());
-        adoption.setDate(dto.getDate());
-        adoption.setStatus(dto.getStatus());
-        adoption.setAdopterName(dto.getAdopterName());
-        adoption.setStatus(dto.getStatus());
-        Animal animal = getAnimalRepository().findById(dto.getAnimalId())
-            .orElseThrow(() -> new ResourceNotFoundException("There is no animal with the specified ID"));
-        adoption.setAnimal(animal);
+    @Mapping(target = "animalId", source = "animal.id")
+    AdoptionResponseDTO toDTO(Adoption adoption);
 
-        return adoption;
-    }
-
+    // We ignore animal here because we only have animalId in DTO.
     @Override
-    public AdoptionResponseDTO toDTO(Adoption adoption){
-        AdoptionResponseDTO dto = new AdoptionResponseDTO();
-        dto.setId(adoption.getId());
-        dto.setDate(adoption.getDate());
-        dto.setStatus(adoption.getStatus());
-        dto.setAnimalId(adoption.getAnimal().getId());
-
-        return dto;
-    }
-
-    public AnimalRepository getAnimalRepository() {
-        return animalRepository;
-    }
-
-
+    @Mapping(target = "animal", ignore = true)
+    Adoption toEntity(AdoptionRequestDTO dto);
 }

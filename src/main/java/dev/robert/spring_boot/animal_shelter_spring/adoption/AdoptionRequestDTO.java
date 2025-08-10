@@ -9,7 +9,14 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     private AdoptionStatusEnum status;
     private String adopterName;
     private Long animalId;
+    private String adopterContact;
 
+    public String getAdopterContact() {
+        return adopterContact;
+    }
+    public void setAdopterContact(String adopterContact) {
+        this.adopterContact = adopterContact;
+    }
     public AdoptionRequestDTO() {
     }
     public AdoptionRequestDTO(LocalDate date, AdoptionStatusEnum status, String adopterName, String adopterCnp,

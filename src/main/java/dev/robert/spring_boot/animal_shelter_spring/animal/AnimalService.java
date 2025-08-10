@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 
 import dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionRepository;
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ServiceBase;
-import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 
 @Service
 public class AnimalService extends ServiceBase<
     Animal,
-    AnimalDTO,
-    AnimalDTO,
+    AnimalRequestDTO,
+    AnimalResponseDTO,
     Long
 >{
 
@@ -24,13 +23,13 @@ public class AnimalService extends ServiceBase<
     }
 
     @Override
-    protected MapperInterface<AnimalDTO, AnimalDTO, Animal> getMapper(){
+    protected AnimalMapper getMapper(){
         return animalMapper;
     }
 
-    public AnimalService(AnimalRepository animalRepository, AdoptionRepository adoptionRepository, AnimalMapper animalMapper) {
-        this.animalRepository = animalRepository;
-        this.animalMapper = animalMapper;
+    public AnimalService(AnimalRepository animalRepository, AnimalMapper animalMapper) {
+        this.animalRepository   = animalRepository;
+        this.animalMapper       = animalMapper;
     }
 
 
