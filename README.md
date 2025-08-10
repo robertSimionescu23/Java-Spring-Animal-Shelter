@@ -13,7 +13,7 @@ It aims to provide a smooth user experience, but also easy management and monito
 
 # Core features for Animal Shelter web app
 
-1. ## Have a Database containing
+1. ✅ ## Have a Database containing 
 	- It should contain animal data:
 		- Id
 		- Name   (Easier for users to use it for searching a specific animal)
@@ -34,11 +34,11 @@ It aims to provide a smooth user experience, but also easy management and monito
     - For example, offer category for senior animals, or younger animals.
     - Enable searching for certain ages of animals, species etc.
 
-3.  ## Have a system that allows authorized persons to upload images, handle animal data, but not users
+3. ✅  ## Have an authentification system, so that users can access data, but only admins can change/add.
     - Different table containing encoded passwords and usernames
     - Access login page with special url (So regular users can't stumble naturally on the login)
 
-4. ## Handle image upload on an per animal basis, by authorized personnel only
+4. ✅ ## Handle image upload on an per animal basis, by authorized personnel only
 
 5. ## Schedule visits for animals, schedule adoption meetings
 	- Calendar for meetings and adoptions
