@@ -27,7 +27,7 @@ public abstract class ControllerBase<
 >{
     protected abstract ServiceInterface<ENTITY, REQDTO, RESDTO, ID> getService();
 
-    @PostMapping
+    @PostMapping("admin")
     @Override
     public ResponseEntity<RESDTO> create(@RequestBody REQDTO req) {
         return ResponseEntity.ok(

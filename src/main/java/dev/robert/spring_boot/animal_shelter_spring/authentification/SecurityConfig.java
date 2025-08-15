@@ -1,5 +1,6 @@
 package dev.robert.spring_boot.animal_shelter_spring.authentification;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,13 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
 
+    @Value("${app.admin.ADMIN_USER}")
+    private String adminUserName;
+
+    @Value("${app.admin.ADMIN_PASSWORD}")
+    private String adminPassword;
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -21,8 +29,8 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder) {
         var admin = User.builder()
-                .username("admin")
-                .password(encoder.encode("shelterAdminPass"))
+                .username(adminUserName)
+                .password(encoder.encode(adminPassword))
                 .roles("ADMIN")
                 .build();
 
@@ -35,8 +43,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/admin/**").hasRole("ADMIN") // admin-only
-                                .anyRequest().permitAll() // everyone else can access without login
+                                .requestMatchers("api/v1/animal/admin/**").hasRole("ADMIN") // admin-only
+                                .requestMatchers("api/v1/adoption/admin/**").hasRole("ADMIN") // admin-only
+                                .requestMatchers("api/v1/animal/public/**").permitAll() // everyone else can access without login
+                                .requestMatchers("api/v1/adoption/public/**").permitAll() // everyone else can access without login
                 )
                 .httpBasic(withDefaults()); // still enable Basic Auth for admin paths
 

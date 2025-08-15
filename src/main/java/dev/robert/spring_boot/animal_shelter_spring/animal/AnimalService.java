@@ -65,36 +65,34 @@ public class AnimalService extends ServiceBase<
         Animal existingAnimal = getRepository().findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Animal with id " + id + " cannot be found."));
 
-        if(field.equals("name")){
-            if (req.getName() != null)
-                existingAnimal.setName(req.getName());
-            else throw new ResourceNotFoundException("name field of request was empty.");
+        switch (field) {
+            case "name" -> {
+                if (req.getName() != null)
+                    existingAnimal.setName(req.getName());
+                else throw new ResourceNotFoundException("name field of request was empty.");
+            }
+            case "age" -> {
+                if (req.getAge() != null)
+                    existingAnimal.setAge(req.getAge());
+                else throw new ResourceNotFoundException("age field of request was empty.");
+            }
+            case "species" -> {
+                if (req.getSpecies() != null)
+                    existingAnimal.setSpecies(req.getSpecies());
+                else throw new ResourceNotFoundException("species field of request was empty.");
+            }
+            case "description" -> {
+                if (req.getDescription() != null)
+                    existingAnimal.setDescription(req.getDescription());
+                else throw new ResourceNotFoundException("Description field of request was empty.");
+            }
+            case "pictureURLs" -> {
+                if (req.getPictureURLs() != null)
+                    existingAnimal.setPictureURLs(req.getPictureURLs());
+                else throw new ResourceNotFoundException("Picture URLs field of request was empty.");
+            }
+            default -> throw new ResourceNotFoundException("Field to patch cannot be found.");
         }
-
-        else if(field.equals("age")){
-            if (req.getAge() != null)
-                existingAnimal.setAge(req.getAge());
-            else throw new ResourceNotFoundException("age field of request was empty.");
-        }
-
-        else if(field.equals("species")){
-            if (req.getSpecies() != null)
-                existingAnimal.setSpecies(req.getSpecies());
-            else throw new ResourceNotFoundException("species field of request was empty.");
-        }
-
-        else if(field.equals("description")){
-            if (req.getDescription() != null)
-                existingAnimal.setDescription(req.getDescription());
-            else throw new ResourceNotFoundException("Description field of request was empty.");
-        }
-
-        else if(field.equals("pictureURLs")){
-            if (req.getPictureURLs() != null)
-                existingAnimal.setPictureURLs(req.getPictureURLs());
-            else throw new ResourceNotFoundException("Picture URLs field of request was empty.");
-        }
-        else throw new ResourceNotFoundException("Field to patch cannot be found.");
 
         Animal response = getRepository().save(existingAnimal);
 

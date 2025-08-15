@@ -9,25 +9,22 @@ public class AnimalResponseDTO implements DTOInterface<Long>{
     private String name;
     private Integer age;
     private String species;
-    private Long adoptionId;
+    private List<Long> adoptionIds;
     private String description;
     private List<String> pictureURLs;
 
     public AnimalResponseDTO() {
     }
 
-
-    public AnimalResponseDTO(Long id, String name, Integer age, String species, Long adoptionId, String description,
-            List<String> pictureURLs) {
+    public AnimalResponseDTO(Long id, String name, Integer age, String species, List<Long> adoptionIds, String description, List<String> pictureURLs) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.species = species;
-        this.adoptionId = adoptionId;
+        this.adoptionIds = adoptionIds;
         this.description = description;
         this.pictureURLs = pictureURLs;
     }
-
 
     public String getDescription() {
         return description;
@@ -73,14 +70,13 @@ public class AnimalResponseDTO implements DTOInterface<Long>{
         this.species = species;
     }
 
-    public Long getAdoptionId() {
-        return adoptionId;
+    public List<Long> getAdoptionIds() {
+        return adoptionIds;
     }
 
-    public void setAdoptionId(Long adoptionId) {
-        this.adoptionId = adoptionId;
+    public void setAdoptionIds(List<Long> adoptionIds) {
+        this.adoptionIds = adoptionIds;
     }
-
 
     public List<String> getPictureURLs() {
         return pictureURLs;

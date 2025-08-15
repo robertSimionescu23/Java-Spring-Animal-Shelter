@@ -3,14 +3,7 @@ package dev.robert.spring_boot.animal_shelter_spring.adoption;
 import java.time.LocalDate;
 
 import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -35,15 +28,16 @@ public class Adoption {
     @NotBlank
     private String adopterContact;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "animal_id", nullable = false, unique = false)
+    private Animal animal;
+
     public String getAdopterContact() {
         return adopterContact;
     }
     public void setAdopterContact(String adopterContact) {
         this.adopterContact = adopterContact;
     }
-    @OneToOne(optional = false)
-    @JoinColumn(name = "animal_id", nullable = false, unique = true)
-    private Animal animal;
 
     public Long getId() {
         return id;
