@@ -4,13 +4,7 @@ package dev.robert.spring_boot.animal_shelter_spring.animal;
 import java.util.List;
 
 import dev.robert.spring_boot.animal_shelter_spring.adoption.Adoption;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
@@ -26,12 +20,12 @@ public class Animal {
     @Min(value = 0, message = "Age must be positive")
     private Integer age;
 
+
     @NotBlank
     private String species;
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "adoption_id", nullable = true)
-    private Adoption adoption;
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Adoption> adoptions;
 
     private String description;
 
@@ -51,10 +45,7 @@ public class Animal {
         this.pictureURLs = pictureURLs;
     }
 
-
-    // TODO: add a field that contains a list of all picture urls
-    // TODO: Handle images received by request, by saving them to the new images folder. Download is not necessay, as they are only to be displayed
-    // Make sure that deleting from the url list, deletes the image from the file server
+    //TODO: Make sure that deleting from the url list, deletes the image from the file server
 
     public Long getId() {
         return id;
@@ -76,7 +67,7 @@ public class Animal {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
         result = prime * result + ((species == null) ? 0 : species.hashCode());
-        result = prime * result + ((adoption == null) ? 0 : adoption.hashCode());
+        result = prime * result + ((adoptions == null) ? 0 : adoptions.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((pictureURLs == null) ? 0 : pictureURLs.hashCode());
         return result;
@@ -110,10 +101,10 @@ public class Animal {
                 return false;
         } else if (!species.equals(other.species))
             return false;
-        if (adoption == null) {
-            if (other.adoption != null)
+        if (adoptions == null) {
+            if (other.adoptions != null)
                 return false;
-        } else if (!adoption.equals(other.adoption))
+        } else if (!adoptions.equals(other.adoptions))
             return false;
         if (description == null) {
             if (other.description != null)
@@ -142,12 +133,14 @@ public class Animal {
         this.age = age;
     }
 
-    public Adoption getAdoption() {
-        return adoption;
+    public List<Adoption> getAdoptions() {
+        return adoptions;
     }
-    public void setAdoption(Adoption adoption) {
-        this.adoption = adoption;
+
+    public void setAdoptions(List<Adoption> adoptions) {
+        this.adoptions = adoptions;
     }
+
     public String getSpecies() {
         return species;
     }

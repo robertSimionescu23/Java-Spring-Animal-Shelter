@@ -1,11 +1,12 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
 
-@RestController
+@Controller
 @RequestMapping("api/v1/adoption")
 public class AdoptionController extends ControllerBase<
     Adoption,
@@ -13,7 +14,7 @@ public class AdoptionController extends ControllerBase<
     AdoptionResponseDTO,
     Long
 >{
-    private AdoptionService adoptionService;
+    private final AdoptionService adoptionService;
 
     public AdoptionController(AdoptionService adoptionService) {
         this.adoptionService = adoptionService;

@@ -60,7 +60,7 @@ public class AnimalController extends ControllerBase<
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("public/image/{id}/{fileName}")
+    @GetMapping("public/download/{id}/{fileName}")
     public ResponseEntity<ByteArrayResource> getImage(@PathVariable Long id, @PathVariable String fileName) throws IOException{
         byte[] response = animalService.getImage(id, fileName);
 
