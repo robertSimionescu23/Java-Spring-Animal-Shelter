@@ -1,7 +1,5 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
-import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalRequestDTO;
-import dev.robert.spring_boot.animal_shelter_spring.animal.AnimalResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,8 @@ import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundE
 import java.util.List;
 
 import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.cancelled;
+import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.pending;
+import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.done;
 
 @Service
 public class AdoptionService extends ServiceBase<
@@ -25,57 +25,51 @@ public class AdoptionService extends ServiceBase<
 >{
 
     @Autowired private AnimalRepository animalRepository;
-    private final AdoptionRepository adoptionRepository;
-    private final AdoptionMapper adoptionMapper;
-
 
     public AdoptionService(AdoptionRepository adoptionRepository, AdoptionMapper adoptionMapper) {
-        this.adoptionRepository = adoptionRepository;
-        this.adoptionMapper = adoptionMapper;
+        super(adoptionRepository, adoptionMapper);
     }
 
-    @Override
-    protected MapperInterface<AdoptionRequestDTO, AdoptionResponseDTO, Adoption> getMapper(){
-        return adoptionMapper;
-    }
-
-    @Override
-    protected JpaRepository<Adoption, Long> getRepository(){
-        return adoptionRepository;
-    }
-
-    @Override
-    public AdoptionResponseDTO save(AdoptionRequestDTO dto){
-        Adoption adoption = getMapper().toEntity(dto);
-        List<Adoption> existingAdoptions;
+    public AdoptionResponseDTO post(AdoptionRequestDTO dto){
+        Adoption adoption = mapper.toEntity(dto);
 
         // Fetch the Animal entity referenced by animalId in the DTO
         Animal linkedAnimal = animalRepository.findById(dto.getAnimalId())
-            .orElseThrow(() -> new ResourceNotFoundException("Animal not found with id " + dto.getAnimalId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Animal not found with id " + dto.getAnimalId()));
 
-        existingAdoptions = linkedAnimal.getAdoptions();
+        List<Adoption> existingAdoptions = linkedAnimal.getAdoptions();
 
-        if(!existingAdoptions.stream().allMatch(checkAdoption -> checkAdoption.getStatus() == cancelled)){
-            throw new RuntimeException("There cannot be more than 1 pending adoption associated with an animal, at any time.");
+        for (Adoption iterAdoption : existingAdoptions) {
+            if (iterAdoption.getStatus().equals(pending) || iterAdoption.getStatus().equals(done)) {
+                throw new ResourceNotFoundException("There can only be one adoption pending or done, per animal.");
+            }
+        }
+
+        if(!dto.getStatus().equals(pending)){
+            throw new RuntimeException("Adoptions cannot be created in any other state than pending. They need to be changed later on.");
         }
 
         // Set the Animal reference
         adoption.setAnimal(linkedAnimal);
 
         // Save Adoption entity
-        Adoption savedAdoption = getRepository().save(adoption);
+        Adoption savedAdoption = repository.save(adoption);
 
         // Set the adoption entity on referenced animal
         linkedAnimal.getAdoptions().add(savedAdoption); //TODO: check that it is not possible to have 2 pending or done adoptions at the same time.
         animalRepository.save(linkedAnimal);
 
-        return getMapper().toDTO(savedAdoption);
+        return mapper.toDTO(savedAdoption);
     }
 
+    @Override
     public AdoptionResponseDTO patch(Long id, String field, AdoptionRequestDTO req){
 
-        Adoption existingAdoption = getRepository().findById(id)
+        Adoption existingAdoption = repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Adoption with id " + id + " cannot be found."));
+
+        Animal linkedAnimal = existingAdoption.getAnimal();
+        List<Adoption> existingAdoptions = linkedAnimal.getAdoptions();
 
         switch (field) {
             case "date" -> {
@@ -87,6 +81,18 @@ public class AdoptionService extends ServiceBase<
                 if (req.getStatus() != null)
                     existingAdoption.setStatus(req.getStatus());
                 else throw new ResourceNotFoundException("Status field of request was empty.");
+
+                //Make sure that there are no other pending adoptions
+                if(req.getStatus().equals(pending) || req.getStatus().equals(done)) {
+                    for (Adoption iterAdoption : existingAdoptions) {
+                        //Check all other elements
+                        if(iterAdoption.getId().equals(id))
+                            continue;
+                        if (iterAdoption.getStatus().equals(pending) || iterAdoption.getStatus().equals(done)) {
+                            throw new ResourceNotFoundException("There can only be one adoption pending or done, per animal.");
+                        }
+                    }
+                }
             }
             case "adopterName" -> {
                 if (req.getAdopterName() != null)
@@ -101,9 +107,9 @@ public class AdoptionService extends ServiceBase<
             default -> throw new ResourceNotFoundException("Field to patch cannot be found.");
         }
 
-        Adoption response = getRepository().save(existingAdoption);
+        Adoption response = repository.save(existingAdoption);
 
-        return getMapper().toDTO(response);
+        return mapper.toDTO(response);
     }
 
 }

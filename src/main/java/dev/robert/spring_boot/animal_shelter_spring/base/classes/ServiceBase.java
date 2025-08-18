@@ -10,40 +10,44 @@ import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterf
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ServiceInterface;
 
 public abstract class ServiceBase<ENTITY, REQDTO, RESDTO, ID> implements ServiceInterface<ENTITY, REQDTO, RESDTO, ID> {
-    protected abstract JpaRepository<ENTITY, ID> getRepository();
+    protected final JpaRepository<ENTITY, ID> repository;
 
-    protected abstract MapperInterface<REQDTO, RESDTO, ENTITY> getMapper();
+    protected final MapperInterface<REQDTO, RESDTO, ENTITY> mapper;
 
-
+    protected ServiceBase(JpaRepository<ENTITY, ID> repository,
+                          MapperInterface<REQDTO, RESDTO, ENTITY> mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
     public RESDTO findById(ID id) {
-        Optional<ENTITY> entity = getRepository().findById(id);
-        return entity.map(e -> getMapper().toDTO(e)).orElse(null);
+        Optional<ENTITY> entity = repository.findById(id);
+        return entity.map(e -> mapper.toDTO(e)).orElse(null);
     }
 
     @Override
     public List<RESDTO> findAll() {
-        return getRepository().findAll()
+        return repository.findAll()
                 .stream()
-                .map(e -> getMapper().toDTO(e))
+                .map(e -> mapper.toDTO(e))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteById(ID id){
-        getRepository().deleteById(id);
+        repository.deleteById(id);
     }
 
     @Override
     public RESDTO save(REQDTO dto){
-        ENTITY entity = getMapper().toEntity(dto);
-        ENTITY savedentity = getRepository().save(entity);
-        return getMapper().toDTO(savedentity);
+        ENTITY entity = mapper.toEntity(dto);
+        ENTITY savedentity = repository.save(entity);
+        return mapper.toDTO(savedentity);
     }
 
     @Override
     public boolean existsById(ID id){
-        return getRepository().existsById(id);
+        return repository.existsById(id);
     }
 }

@@ -25,21 +25,25 @@ public abstract class ControllerBase<
     RESDTO,
     ID
 >{
-    protected abstract ServiceInterface<ENTITY, REQDTO, RESDTO, ID> getService();
+    protected ServiceInterface<ENTITY, REQDTO, RESDTO, ID>  service;
+
+    public ControllerBase(ServiceInterface<ENTITY, REQDTO, RESDTO, ID> service) {
+        this.service = service;
+    }
 
     @PostMapping("admin")
     @Override
     public ResponseEntity<RESDTO> create(@RequestBody REQDTO req) {
         return ResponseEntity.ok(
-            getService().save(req)
+            service.save(req)
         );
     }
 
     @DeleteMapping("admin/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable ID id) {
-        if(getService().existsById(id)){
-            getService().deleteById(id);
+        if(service.existsById(id)){
+            service.deleteById(id);
             return ResponseEntity.noContent().build();
         }
         else return ResponseEntity.notFound().build();
@@ -49,7 +53,7 @@ public abstract class ControllerBase<
     @Override
     public ResponseEntity<List<RESDTO>> getAll() {
         return ResponseEntity.ok(
-            getService().findAll()
+            service.findAll()
         );
     }
 
@@ -57,7 +61,7 @@ public abstract class ControllerBase<
     @Override
     public ResponseEntity<RESDTO> findById(@PathVariable ID id) {
         return ResponseEntity.ok(
-            getService().findById(id)
+            service.findById(id)
         );
     }
 
@@ -67,9 +71,9 @@ public abstract class ControllerBase<
         //Add the id if it's not in the body as well
         if (req.getId() == null)
             req.setId(id);
-        if(getService().existsById(id)){
+        if(service.existsById(id)){
              return ResponseEntity.ok(
-                getService().save(req)
+                service.save(req)
             );
         }
         else return ResponseEntity.notFound().build();
