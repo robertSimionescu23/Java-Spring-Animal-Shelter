@@ -1,6 +1,7 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.DTOBase;
 
@@ -10,6 +11,8 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     private String adopterName;
     private Long animalId;
     private String adopterContact;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     public String getAdopterContact() {
         return adopterContact;
@@ -19,13 +22,17 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     }
     public AdoptionRequestDTO() {
     }
-    public AdoptionRequestDTO(LocalDate date, AdoptionStatusEnum status, String adopterName, String adopterCnp,
-            Long animalId) {
+
+    public AdoptionRequestDTO(LocalDate date, AdoptionStatusEnum status, String adopterName, Long animalId, String adopterContact, LocalTime startTime, LocalTime endTime) {
         this.date = date;
         this.status = status;
         this.adopterName = adopterName;
         this.animalId = animalId;
+        this.adopterContact = adopterContact;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
+
     public LocalDate getDate() {
         return date;
     }
@@ -50,5 +57,19 @@ public class AdoptionRequestDTO extends DTOBase<Long>{
     public void setAnimalId(Long animalId) {
         this.animalId = animalId;
     }
+    public LocalTime getStartTime() {
+        return startTime;
+    }
 
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
 }

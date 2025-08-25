@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/adoption")
 public class AdoptionController extends ControllerBase<
@@ -32,4 +35,12 @@ public class AdoptionController extends ControllerBase<
                 ((AdoptionService) service).post(req)
         );
     }
+
+    @GetMapping("public/schedule/{date}")
+    public ResponseEntity<List<AdoptionResponseDTO>> getDaySchedule(@PathVariable LocalDate date){
+        return ResponseEntity.ok(
+                ((AdoptionService) service).getDaySchedule(date)
+        );
+    }
+    
 }

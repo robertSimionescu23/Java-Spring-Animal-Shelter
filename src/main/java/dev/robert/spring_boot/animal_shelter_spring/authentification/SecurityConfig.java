@@ -43,10 +43,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("api/v1/animal/admin/**").hasRole("ADMIN") // admin-only
-                                .requestMatchers("api/v1/adoption/admin/**").hasRole("ADMIN") // admin-only
-                                .requestMatchers("api/v1/animal/public/**").permitAll() // everyone else can access without login
-                                .requestMatchers("api/v1/adoption/public/**").permitAll() // everyone else can access without login
+                                .requestMatchers("/api/v1/animal/admin/**").hasRole("ADMIN") // admin-only
+                                .requestMatchers("/api/v1/adoption/admin/**").hasRole("ADMIN") // admin-only
+                                .requestMatchers("/api/v1/animal/public/**").permitAll() // everyone else can access without login
+                                .requestMatchers("/api/v1/adoption/public/**").permitAll() // everyone else can access without login
                 )
                 .httpBasic(withDefaults()); // still enable Basic Auth for admin paths
 

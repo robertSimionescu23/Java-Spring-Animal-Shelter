@@ -10,11 +10,14 @@ import dev.robert.spring_boot.animal_shelter_spring.base.classes.ServiceBase;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 import dev.robert.spring_boot.animal_shelter_spring.exceptions.ResourceNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.cancelled;
 import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.pending;
 import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.done;
+import static dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum.visit;
 
 @Service
 public class AdoptionService extends ServiceBase<
@@ -39,14 +42,30 @@ public class AdoptionService extends ServiceBase<
 
         List<Adoption> existingAdoptions = linkedAnimal.getAdoptions();
 
-        for (Adoption iterAdoption : existingAdoptions) {
-            if (iterAdoption.getStatus().equals(pending) || iterAdoption.getStatus().equals(done)) {
-                throw new ResourceNotFoundException("There can only be one adoption pending or done, per animal.");
-            }
+        if(dto.getStatus().equals(cancelled) || dto.getStatus().equals(done)){
+            throw new IllegalStateException("Adoptions entities may only be created with visit or pending status. The state can be altered later on.");
         }
 
-        if(!dto.getStatus().equals(pending)){
-            throw new RuntimeException("Adoptions cannot be created in any other state than pending. They need to be changed later on.");
+        if(dto.getStatus().equals(pending)){
+            for(Adoption iterAdoption : existingAdoptions){
+                if(iterAdoption.getStatus().equals(pending) || iterAdoption.getStatus().equals(done)){
+                    //There cannot be 2 pending adoptions at a time or a pending adoption after a adoption already went through.
+                    throw new IllegalStateException("The adoption status is already pending or done.");
+                }
+            }
+        }
+        else if(dto.getStatus().equals(visit)){
+            for(Adoption iterAdoption : existingAdoptions){
+                if(iterAdoption.getStatus().equals(pending)){
+                    if(iterAdoption.getDate().isAfter(dto.getDate())) {
+                        //There cannot be a visitation before the pending adoption request is resolved
+                        throw new IllegalStateException("The visit date is after a pending adoption is scheduled. Resolve adoption request first.");
+                    }
+                }
+                else if(iterAdoption.getStatus().equals(done)){
+                    throw new IllegalStateException("The animal has already been adopted.");
+                }
+            }
         }
 
         // Set the Animal reference
@@ -56,7 +75,7 @@ public class AdoptionService extends ServiceBase<
         Adoption savedAdoption = repository.save(adoption);
 
         // Set the adoption entity on referenced animal
-        linkedAnimal.getAdoptions().add(savedAdoption); //TODO: check that it is not possible to have 2 pending or done adoptions at the same time.
+        linkedAnimal.getAdoptions().add(savedAdoption);
         animalRepository.save(linkedAnimal);
 
         return mapper.toDTO(savedAdoption);
@@ -110,6 +129,13 @@ public class AdoptionService extends ServiceBase<
         Adoption response = repository.save(existingAdoption);
 
         return mapper.toDTO(response);
+    }
+
+    public List<AdoptionResponseDTO> getDaySchedule(LocalDate date){
+        return ((AdoptionRepository) repository).findByDate(date)
+                .stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 
 }

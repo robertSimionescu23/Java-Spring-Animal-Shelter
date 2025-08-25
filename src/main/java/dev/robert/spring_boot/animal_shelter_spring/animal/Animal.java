@@ -127,10 +127,15 @@ public class Animal {
 
     public Animal() {
     }
-    public Animal(Long id, String name, Integer age, Integer adoptionID) {
+
+    public Animal(Long id, String name, Integer age, String species, List<Adoption> adoptions, String description, List<String> pictureURLs) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.species = species;
+        this.adoptions = adoptions;
+        this.description = description;
+        this.pictureURLs = pictureURLs;
     }
 
     public List<Adoption> getAdoptions() {
