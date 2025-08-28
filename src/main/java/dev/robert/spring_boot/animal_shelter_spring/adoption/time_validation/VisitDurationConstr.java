@@ -1,4 +1,4 @@
-package dev.robert.spring_boot.animal_shelter_spring.adoption.dateValidation;
+package dev.robert.spring_boot.animal_shelter_spring.adoption.time_validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = TimeScheduleValidator.class)
+@Constraint(validatedBy = VisitDurationConstrValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ScheduleValid {
-    String message() default "End time must be after the start time";
+public @interface VisitDurationConstr {
+    String message() default "Visit duration must be atleast 10 minutes";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

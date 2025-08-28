@@ -1,8 +1,6 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
-import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ServiceInterface;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
@@ -42,5 +40,5 @@ public class AdoptionController extends ControllerBase<
                 ((AdoptionService) service).getDaySchedule(date)
         );
     }
-    
+
 }

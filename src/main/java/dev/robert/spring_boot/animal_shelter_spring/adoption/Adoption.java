@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-import dev.robert.spring_boot.animal_shelter_spring.adoption.dateValidation.ScheduleValid;
+import dev.robert.spring_boot.animal_shelter_spring.adoption.time_validation.ScheduleStartValidConstr;
+import dev.robert.spring_boot.animal_shelter_spring.adoption.time_validation.VisitDurationConstr;
 import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +14,8 @@ import jakarta.validation.constraints.NotNull;
 
 
 @Entity
-@ScheduleValid //Make sure start time is after end time
+@VisitDurationConstr
+@ScheduleStartValidConstr //Make sure start time is after end time
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,7 @@ public class Adoption {
     @NotNull
     private LocalTime endTime;
 
- ;   public String getAdopterContact() {
+    public String getAdopterContact() {
         return adopterContact;
     }
     public void setAdopterContact(String adopterContact) {
