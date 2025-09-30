@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/adoption")
+@RequestMapping("api/v1/adoption/admin")
 public class AdoptionController extends ControllerBase<
     Adoption,
     AdoptionRequestDTO,
@@ -21,12 +21,12 @@ public class AdoptionController extends ControllerBase<
         super(service);
     }
 
-    @PatchMapping("admin/patch/{field}/{id}")
+    @PatchMapping("patch/{field}/{id}")
     public AdoptionResponseDTO patch(@PathVariable String field, @PathVariable Long id, @RequestBody AdoptionRequestDTO adoptionRequestDTO) {
         return service.patch(id, field, adoptionRequestDTO);
     }
 
-    @PostMapping("admin")
+    @PostMapping
     @Override
     public ResponseEntity<AdoptionResponseDTO> create(@RequestBody AdoptionRequestDTO req){
         return ResponseEntity.ok(
@@ -34,7 +34,7 @@ public class AdoptionController extends ControllerBase<
         );
     }
 
-    @GetMapping("public/schedule/{date}")
+    @GetMapping("schedule/{date}")
     public ResponseEntity<List<AdoptionResponseDTO>> getDaySchedule(@PathVariable LocalDate date){
         return ResponseEntity.ok(
                 ((AdoptionService) service).getDaySchedule(date)

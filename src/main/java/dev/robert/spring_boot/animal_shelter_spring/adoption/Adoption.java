@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-import dev.robert.spring_boot.animal_shelter_spring.adoption.time_validation.ScheduleStartValidConstr;
-import dev.robert.spring_boot.animal_shelter_spring.adoption.time_validation.VisitDurationConstr;
 import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -14,8 +12,8 @@ import jakarta.validation.constraints.NotNull;
 
 
 @Entity
-@VisitDurationConstr
-@ScheduleStartValidConstr //Make sure start time is after end time
+// @VisitDurationConstr
+// @ScheduleStartValidConstr //Make sure start time is after end time
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,11 +36,6 @@ public class Adoption {
     @JoinColumn(name = "animal_id", nullable = false, unique = false)
     private Animal animal;
 
-    @NotNull
-    private LocalTime startTime;
-
-    @NotNull
-    private LocalTime endTime;
 
     public String getAdopterContact() {
         return adopterContact;
@@ -68,8 +61,6 @@ public class Adoption {
         this.adopterName = adopterName;
         this.adopterContact = adopterContact;
         this.animal = animal;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     public Adoption() {
@@ -79,12 +70,12 @@ public class Adoption {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Adoption adoption = (Adoption) o;
-        return Objects.equals(id, adoption.id) && Objects.equals(date, adoption.date) && status == adoption.status && Objects.equals(adopterName, adoption.adopterName) && Objects.equals(adopterContact, adoption.adopterContact) && Objects.equals(animal, adoption.animal) && Objects.equals(startTime, adoption.startTime) && Objects.equals(endTime, adoption.endTime);
+        return Objects.equals(id, adoption.id) && Objects.equals(date, adoption.date) && status == adoption.status && Objects.equals(adopterName, adoption.adopterName) && Objects.equals(adopterContact, adoption.adopterContact) && Objects.equals(animal, adoption.animal);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, status, adopterName, adopterContact, animal, startTime, endTime);
+        return Objects.hash(id, date, status, adopterName, adopterContact, animal);
     }
 
     public void setDate(LocalDate date) {
@@ -107,21 +98,5 @@ public class Adoption {
     }
     public void setAnimal(Animal animal) {
         this.animal = animal;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
     }
 }

@@ -31,30 +31,33 @@ public class AdoptionService extends ServiceBase<
         super(adoptionRepository, adoptionMapper);
     }
 
-    public boolean checkScheduleOverlap(AdoptionRequestDTO dto){
-        List<Adoption> schedule =  ((AdoptionRepository) repository).findByDate(dto.getDate());
 
-        for (Adoption iter: schedule){
-            if(iter.getStatus() == cancelled)
-                continue;
-            else {
-                //check start time is not overlapping another interval
-                if(dto.getStartTime().isAfter(iter.getStartTime()) && dto.getStartTime().isBefore(iter.getEndTime())){
-                    return false;
-                }
-                //check end time is not overlapping another interval
-                if(dto.getEndTime().isAfter(iter.getStartTime()) && dto.getEndTime().isBefore(iter.getEndTime())){
-                    return false;
-                }
-                //Check that there is no direct overlap
-                if(dto.getStartTime().equals(iter.getStartTime()) && dto.getEndTime().equals(iter.getEndTime()))
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    //TODO: Change this to an per animal basis. There can be parallel visits to different animals.
+    //TODO: Move this to Visits servie
+    // public boolean checkScheduleOverlap(AdoptionRequestDTO dto){
+    //     List<Adoption> schedule =  ((AdoptionRepository) repository).findByDate(dto.getDate());
+
+    //     for (Adoption iter: schedule){
+    //         if(iter.getStatus() == cancelled)
+    //             continue;
+    //         else {
+    //             //check start time is not overlapping another interval
+    //             if(dto.getStartTime().isAfter(iter.getStartTime()) && dto.getStartTime().isBefore(iter.getEndTime())){
+    //                 return false;
+    //             }
+    //             //check end time is not overlapping another interval
+    //             if(dto.getEndTime().isAfter(iter.getStartTime()) && dto.getEndTime().isBefore(iter.getEndTime())){
+    //                 return false;
+    //             }
+    //             //Check that there is no direct overlap
+    //             if(dto.getStartTime().equals(iter.getStartTime()) && dto.getEndTime().equals(iter.getEndTime()))
+    //             {
+    //                 return false;
+    //             }
+    //         }
+    //     }
+    //     return true;
+    // }
 
     public AdoptionResponseDTO post(AdoptionRequestDTO dto){
         Adoption adoption = mapper.toEntity(dto);
@@ -69,8 +72,8 @@ public class AdoptionService extends ServiceBase<
             throw new IllegalStateException("Adoptions entities may only be created with visit or pending status. The state can be altered later on.");
         }
 
-        if(!checkScheduleOverlap(dto))
-            throw new IllegalStateException("The requested time slot is already filled.");
+        // if(!checkScheduleOverlap(dto))
+        //     throw new IllegalStateException("The requested time slot is already filled.");
 
         if(dto.getStatus().equals(pending)){
             for(Adoption iterAdoption : existingAdoptions){
@@ -149,17 +152,18 @@ public class AdoptionService extends ServiceBase<
                     existingAdoption.setAdopterContact(req.getAdopterContact());
                 else throw new ResourceNotFoundException("Adopter Contact field of request was empty.");
             }
-            case "startTime" ->{
-                if(checkScheduleOverlap(req))
-                    existingAdoption.setStartTime(req.getStartTime());
-                else throw new IllegalStateException("The requested time slot is already filled.");
-            }
-
-            case "endTime" ->{
-                if(checkScheduleOverlap(req))
-                    existingAdoption.setEndTime(req.getStartTime());
-                else throw new IllegalStateException("The requested time slot is already filled.");
-            }
+            // //TODO: Move this to Visits servie
+            // case "startTime" ->{
+            //     if(checkScheduleOverlap(req))
+            //         existingAdoption.setStartTime(req.getStartTime());
+            //     else throw new IllegalStateException("The requested time slot is already filled.");
+            // }
+            // //TODO: Move this to Visits servie
+            // case "endTime" ->{
+            //     if(checkScheduleOverlap(req))
+            //         existingAdoption.setEndTime(req.getStartTime());
+            //     else throw new IllegalStateException("The requested time slot is already filled.");
+            // }
             default -> throw new ResourceNotFoundException("Field to patch cannot be found.");
         }
 
