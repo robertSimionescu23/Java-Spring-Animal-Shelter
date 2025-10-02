@@ -9,12 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.MapperInterface;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.ServiceInterface;
 
-public abstract class ServiceBase<ENTITY, REQDTO, RESDTO, ID> implements ServiceInterface<ENTITY, REQDTO, RESDTO, ID> {
-    protected final JpaRepository<ENTITY, ID> repository;
+public abstract class ServiceBase<ENTITY, REQDTO, RESDTO, ID, REPO extends JpaRepository<ENTITY, ID>> implements
+ServiceInterface<ENTITY, REQDTO, RESDTO, ID> {
+    protected final REPO repository;
 
     protected final MapperInterface<REQDTO, RESDTO, ENTITY> mapper;
 
-    protected ServiceBase(JpaRepository<ENTITY, ID> repository,
+    protected ServiceBase(REPO repository,
                           MapperInterface<REQDTO, RESDTO, ENTITY> mapper) {
         this.repository = repository;
         this.mapper = mapper;

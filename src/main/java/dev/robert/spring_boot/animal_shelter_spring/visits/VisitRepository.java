@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VisitRepository extends JpaRepository<Visit, Long> {
     List<Visit> findByDate(LocalDate date);
+    List<Visit> findByAnimalId(long animalId);
+    List<Visit> findByAnimalIdAndDate (Long animalId, LocalDate date);
 }

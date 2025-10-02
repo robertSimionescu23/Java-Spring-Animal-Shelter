@@ -1,7 +1,6 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Objects;
 
 import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
@@ -12,8 +11,6 @@ import jakarta.validation.constraints.NotNull;
 
 
 @Entity
-// @VisitDurationConstr
-// @ScheduleStartValidConstr //Make sure start time is after end time
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +19,15 @@ public class Adoption {
     @NotNull
     private LocalDate date;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AdoptionStatusEnum status;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.status == null) {
+            this.status = AdoptionStatusEnum.PENDING;
+        }
+    }
 
     @NotBlank
     private String adopterName;
@@ -54,7 +57,7 @@ public class Adoption {
         return date;
     }
 
-    public Adoption(Long id, LocalDate date, AdoptionStatusEnum status, String adopterName, String adopterContact, Animal animal, LocalTime startTime, LocalTime endTime) {
+    public Adoption(Long id, LocalDate date, AdoptionStatusEnum status, String adopterName, String adopterContact, Animal animal) {
         this.id = id;
         this.date = date;
         this.status = status;

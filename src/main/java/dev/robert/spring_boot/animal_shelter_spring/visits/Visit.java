@@ -35,10 +35,9 @@ public class Visit {
     @NotNull
     private LocalTime endTime;
 
-    //TODO: Find a way to calculate this when you get both startTime and endTime
     private long minuteDuration;
 
-    private boolean isCancelled = false;
+    private Boolean isCancelled = false;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "animal_id", nullable = true, unique = false)
@@ -50,7 +49,7 @@ public class Visit {
     public Visit() {
     }
 
-    public Visit(long id, @NotNull LocalTime startTime, @NotNull LocalTime endTime, long minuteDuration, boolean isCancelled, LocalDate date, String visitorName) {
+    public Visit(long id, @NotNull LocalTime startTime, @NotNull LocalTime endTime, Animal animal, long minuteDuration, Boolean isCancelled, LocalDate date, String visitorName) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -58,6 +57,7 @@ public class Visit {
         this.minuteDuration = minuteDuration;
         this.isCancelled = isCancelled;
         this.visitorName = visitorName;
+        this.animal = animal;
     }
 
 
@@ -100,11 +100,11 @@ public class Visit {
         this.minuteDuration = minuteDuration;
     }
 
-    public boolean isCancelled() {
+    public Boolean getIsCancelled() {
         return isCancelled;
     }
 
-    public void setCancelled(boolean isCancelled) {
+    public void setIsCancelled(Boolean isCancelled) {
         this.isCancelled = isCancelled;
     }
 

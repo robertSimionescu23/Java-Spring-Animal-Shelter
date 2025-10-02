@@ -23,7 +23,8 @@ public class AnimalService extends ServiceBase<
     Animal,
     AnimalRequestDTO,
     AnimalResponseDTO,
-    Long
+    Long,
+    AnimalRepository
 >{
 
    @Value("${app.images.dir:images}")

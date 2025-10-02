@@ -6,11 +6,10 @@ import java.time.LocalTime;
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.DTOBase;
 
 public class AdoptionResponseDTO extends DTOBase<Long>{
-    private LocalDate date;
-    private AdoptionStatusEnum status;
-    private Long animalId;
-    private LocalTime startTime;
-    private LocalTime endTime;
+
+    private LocalDate               date;
+    private AdoptionStatusEnum      status;
+    private Long                    animalId;
 
     public AdoptionResponseDTO() {
     }
@@ -19,8 +18,6 @@ public class AdoptionResponseDTO extends DTOBase<Long>{
         this.date = date;
         this.status = status;
         this.animalId = animalId;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     public LocalDate getDate() {
@@ -41,20 +38,4 @@ public class AdoptionResponseDTO extends DTOBase<Long>{
     public void setAnimalId(Long animalId) {
         this.animalId = animalId;
     }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-}
+                }

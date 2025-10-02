@@ -9,7 +9,7 @@ class VisitRequestDTO extends DTOBase<Long>{
     private LocalTime startTime;
     private LocalTime endTime;
     private long      minuteDuration;
-    private boolean   isCancelled;
+    private Boolean   isCancelled;
     private long      animalId;
     private String    visitorName;
 
@@ -40,10 +40,10 @@ class VisitRequestDTO extends DTOBase<Long>{
     public void setMinuteDuration(long minuteDuration) {
         this.minuteDuration = minuteDuration;
     }
-    public boolean isCancelled() {
+    public Boolean getIsCancelled() {
         return isCancelled;
     }
-    public void setCancelled(boolean isCancelled) {
+    public void setIsCancelled(Boolean isCancelled) {
         this.isCancelled = isCancelled;
     }
     public long getAnimalId() {
