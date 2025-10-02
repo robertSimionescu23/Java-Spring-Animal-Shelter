@@ -1,6 +1,7 @@
 package dev.robert.spring_boot.animal_shelter_spring.adoption;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import dev.robert.spring_boot.animal_shelter_spring.animal.Animal;
 import jakarta.persistence.*;
@@ -18,9 +19,15 @@ public class Adoption {
     @NotNull
     private LocalDate date;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AdoptionStatusEnum status;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.status == null) {
+            this.status = AdoptionStatusEnum.PENDING;
+        }
+    }
 
     @NotBlank
     private String adopterName;
@@ -31,6 +38,7 @@ public class Adoption {
     @ManyToOne(optional = false)
     @JoinColumn(name = "animal_id", nullable = false, unique = false)
     private Animal animal;
+
 
     public String getAdopterContact() {
         return adopterContact;
@@ -49,56 +57,30 @@ public class Adoption {
         return date;
     }
 
+    public Adoption(Long id, LocalDate date, AdoptionStatusEnum status, String adopterName, String adopterContact, Animal animal) {
+        this.id = id;
+        this.date = date;
+        this.status = status;
+        this.adopterName = adopterName;
+        this.adopterContact = adopterContact;
+        this.animal = animal;
+    }
+
+    public Adoption() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Adoption adoption = (Adoption) o;
+        return Objects.equals(id, adoption.id) && Objects.equals(date, adoption.date) && status == adoption.status && Objects.equals(adopterName, adoption.adopterName) && Objects.equals(adopterContact, adoption.adopterContact) && Objects.equals(animal, adoption.animal);
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((adopterName == null) ? 0 : adopterName.hashCode());
-        result = prime * result + ((adopterContact == null) ? 0 : adopterContact.hashCode());
-        result = prime * result + ((animal == null) ? 0 : animal.hashCode());
-        return result;
+        return Objects.hash(id, date, status, adopterName, adopterContact, animal);
     }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Adoption other = (Adoption) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (date == null) {
-            if (other.date != null)
-                return false;
-        } else if (!date.equals(other.date))
-            return false;
-        if (status != other.status)
-            return false;
-        if (adopterName == null) {
-            if (other.adopterName != null)
-                return false;
-        } else if (!adopterName.equals(other.adopterName))
-            return false;
-        if (adopterContact == null) {
-            if (other.adopterContact != null)
-                return false;
-        } else if (!adopterContact.equals(other.adopterContact))
-            return false;
-        if (animal == null) {
-            if (other.animal != null)
-                return false;
-        } else if (!animal.equals(other.animal))
-            return false;
-        return true;
-    }
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -120,5 +102,4 @@ public class Adoption {
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }
-
 }

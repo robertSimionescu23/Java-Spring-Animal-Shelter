@@ -2,6 +2,7 @@ package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 import java.util.List;
 
+import dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
 
 public class AnimalResponseDTO implements DTOInterface<Long>{
@@ -9,22 +10,25 @@ public class AnimalResponseDTO implements DTOInterface<Long>{
     private String name;
     private Integer age;
     private String species;
-    private List<Long> adoptionIds;
+    private AdoptionStatusEnum adoptionStatus;
     private String description;
     private List<String> pictureURLs;
 
     public AnimalResponseDTO() {
     }
 
-    public AnimalResponseDTO(Long id, String name, Integer age, String species, List<Long> adoptionIds, String description, List<String> pictureURLs) {
+
+    public AnimalResponseDTO(Long id, String name, Integer age, String species, AdoptionStatusEnum adoptionStatus,
+            String description, List<String> pictureURLs) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.species = species;
-        this.adoptionIds = adoptionIds;
+        this.adoptionStatus = adoptionStatus;
         this.description = description;
         this.pictureURLs = pictureURLs;
     }
+
 
     public String getDescription() {
         return description;
@@ -70,13 +74,6 @@ public class AnimalResponseDTO implements DTOInterface<Long>{
         this.species = species;
     }
 
-    public List<Long> getAdoptionIds() {
-        return adoptionIds;
-    }
-
-    public void setAdoptionIds(List<Long> adoptionIds) {
-        this.adoptionIds = adoptionIds;
-    }
 
     public List<String> getPictureURLs() {
         return pictureURLs;
@@ -85,6 +82,16 @@ public class AnimalResponseDTO implements DTOInterface<Long>{
 
     public void setPictureURLs(List<String> pictureURLs) {
         this.pictureURLs = pictureURLs;
+    }
+
+
+    public AdoptionStatusEnum getAdoptionStatus() {
+        return adoptionStatus;
+    }
+
+
+    public void setAdoptionStatus(AdoptionStatusEnum adoptionStatus) {
+        this.adoptionStatus = adoptionStatus;
     }
 
 }

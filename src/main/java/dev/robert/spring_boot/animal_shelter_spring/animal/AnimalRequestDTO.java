@@ -2,6 +2,7 @@ package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 import java.util.List;
 
+import dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum;
 import dev.robert.spring_boot.animal_shelter_spring.base.interfaces.DTOInterface;
 
 public class AnimalRequestDTO implements DTOInterface<Long>{
@@ -9,30 +10,25 @@ public class AnimalRequestDTO implements DTOInterface<Long>{
     private String name;
     private Integer age;
     private String species;
-    private List<Long> adoptionIds;
+    private AdoptionStatusEnum adoptionStatus;
     private String description;
     private List<String> pictureURLs;
 
     public AnimalRequestDTO() {
     }
 
-    public AnimalRequestDTO(Long id, String name, Integer age, String species, List<Long> adoptionId, String description, List<String> pictureURLs) {
+    public AnimalRequestDTO(Long id, String name, Integer age, String species, AdoptionStatusEnum adoptionStatus,
+            String description, List<String> pictureURLs) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.species = species;
-        this.adoptionIds = adoptionId;
+        this.adoptionStatus = adoptionStatus;
         this.description = description;
         this.pictureURLs = pictureURLs;
     }
 
-    public List<Long> getAdoptionIds() {
-        return adoptionIds;
-    }
 
-    public void setAdoptionIds(List<Long> adoptionIds) {
-        this.adoptionIds = adoptionIds;
-    }
 
     public String getDescription() {
         return description;
@@ -84,6 +80,14 @@ public class AnimalRequestDTO implements DTOInterface<Long>{
 
     public void setSpecies(String species) {
         this.species = species;
+    }
+
+    public AdoptionStatusEnum getAdoptionStatus() {
+        return adoptionStatus;
+    }
+
+    public void setAdoptionStatus(AdoptionStatusEnum adoptionStatus) {
+        this.adoptionStatus = adoptionStatus;
     }
 
 

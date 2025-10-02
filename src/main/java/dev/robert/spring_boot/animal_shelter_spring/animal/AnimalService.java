@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,30 +23,15 @@ public class AnimalService extends ServiceBase<
     Animal,
     AnimalRequestDTO,
     AnimalResponseDTO,
-    Long
+    Long,
+    AnimalRepository
 >{
-
-    private final AnimalRepository animalRepository;
-    private final AnimalMapper animalMapper;
 
    @Value("${app.images.dir:images}")
     private String imagesDir;
 
-
-
-    @Override
-    protected JpaRepository<Animal, Long> getRepository(){
-        return animalRepository;
-    }
-
-    @Override
-    protected AnimalMapper getMapper(){
-        return animalMapper;
-    }
-
     public AnimalService(AnimalRepository animalRepository, AnimalMapper animalMapper) {
-        this.animalRepository   = animalRepository;
-        this.animalMapper       = animalMapper;
+        super(animalRepository, animalMapper);
     }
 
     public String getFIleExtension(MultipartFile file){
@@ -60,9 +44,10 @@ public class AnimalService extends ServiceBase<
         return extenstion;
     }
 
+    @Override
     public AnimalResponseDTO patch(Long id, String field, AnimalRequestDTO req){
 
-        Animal existingAnimal = getRepository().findById(id)
+        Animal existingAnimal = repository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Animal with id " + id + " cannot be found."));
 
         switch (field) {
@@ -94,13 +79,13 @@ public class AnimalService extends ServiceBase<
             default -> throw new ResourceNotFoundException("Field to patch cannot be found.");
         }
 
-        Animal response = getRepository().save(existingAnimal);
+        Animal response = repository.save(existingAnimal);
 
-        return getMapper().toDTO(response);
+        return mapper.toDTO(response);
     }
 
     public AnimalResponseDTO addNewUrl(Long id, String fileName){ //Think about creating custom DTO for urls only
-        Animal animal = getRepository().findById(id)
+        Animal animal = repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Animal with id " + id + " does not exist in the data base."));
 
         List<String> existingURLs = animal.getPictureURLs();
@@ -113,8 +98,8 @@ public class AnimalService extends ServiceBase<
 
         animal.setPictureURLs(existingURLs);
 
-        Animal response = getRepository().save(animal);
-        return getMapper().toDTO(response);
+        Animal response = repository.save(animal);
+        return mapper.toDTO(response);
     }
 
     public AnimalResponseDTO saveImage(Long id, MultipartFile image) throws IOException{
@@ -148,7 +133,7 @@ public class AnimalService extends ServiceBase<
     }
 
     public byte[] getImage(Long id, String fileName) throws IOException{
-        Animal animal = getRepository().findById(id)
+        Animal animal = repository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Animal with id " + id + " does not exist in data base."));
 
         List<String> urls = animal.getPictureURLs();
@@ -170,7 +155,7 @@ public class AnimalService extends ServiceBase<
     }
 
     public AnimalResponseDTO changeFirstImage(Long id, int index) throws FileNotFoundException{
-        Animal animal = getRepository().findById(id)
+        Animal animal = repository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Animal with id " + id + " does not exist in data base."));
 
         List<String> urls = animal.getPictureURLs();
@@ -186,9 +171,9 @@ public class AnimalService extends ServiceBase<
 
         animal.setPictureURLs(urls);
 
-        Animal response = getRepository().save(animal);
+        Animal response = repository.save(animal);
 
-        return getMapper().toDTO(response);
+        return mapper.toDTO(response);
     }
 
 }

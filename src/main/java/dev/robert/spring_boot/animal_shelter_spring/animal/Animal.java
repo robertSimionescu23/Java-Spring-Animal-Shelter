@@ -3,7 +3,7 @@ package dev.robert.spring_boot.animal_shelter_spring.animal;
 
 import java.util.List;
 
-import dev.robert.spring_boot.animal_shelter_spring.adoption.Adoption;
+import dev.robert.spring_boot.animal_shelter_spring.adoption.AdoptionStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -20,12 +20,18 @@ public class Animal {
     @Min(value = 0, message = "Age must be positive")
     private Integer age;
 
-
     @NotBlank
     private String species;
 
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Adoption> adoptions;
+    @Enumerated(EnumType.STRING)
+    private AdoptionStatusEnum adoptionStatus;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.adoptionStatus == null) {
+            this.adoptionStatus = AdoptionStatusEnum.AVAILABLE;
+        }
+    }
 
     private String description;
 
@@ -67,7 +73,7 @@ public class Animal {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
         result = prime * result + ((species == null) ? 0 : species.hashCode());
-        result = prime * result + ((adoptions == null) ? 0 : adoptions.hashCode());
+        result = prime * result + ((adoptionStatus == null) ? 0 : adoptionStatus.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((pictureURLs == null) ? 0 : pictureURLs.hashCode());
         return result;
@@ -101,10 +107,7 @@ public class Animal {
                 return false;
         } else if (!species.equals(other.species))
             return false;
-        if (adoptions == null) {
-            if (other.adoptions != null)
-                return false;
-        } else if (!adoptions.equals(other.adoptions))
+        if (adoptionStatus != other.adoptionStatus)
             return false;
         if (description == null) {
             if (other.description != null)
@@ -127,18 +130,15 @@ public class Animal {
 
     public Animal() {
     }
-    public Animal(Long id, String name, Integer age, Integer adoptionID) {
+
+    public Animal(Long id, String name, Integer age, String species, AdoptionStatusEnum adoptionStatus, String description, List<String> pictureURLs) {
         this.id = id;
         this.name = name;
         this.age = age;
-    }
-
-    public List<Adoption> getAdoptions() {
-        return adoptions;
-    }
-
-    public void setAdoptions(List<Adoption> adoptions) {
-        this.adoptions = adoptions;
+        this.species = species;
+        this.adoptionStatus = adoptionStatus;
+        this.description = description;
+        this.pictureURLs = pictureURLs;
     }
 
     public String getSpecies() {
@@ -146,6 +146,12 @@ public class Animal {
     }
     public void setSpecies(String species) {
         this.species = species;
+    }
+    public AdoptionStatusEnum getAdoptionStatus() {
+        return adoptionStatus;
+    }
+    public void setAdoptionStatus(AdoptionStatusEnum adoptionStatus) {
+        this.adoptionStatus = adoptionStatus;
     }
 
 
