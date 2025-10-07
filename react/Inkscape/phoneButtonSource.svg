@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="phoneButtonSource.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="8.1941057"
+     inkscape:cx="254.63425"
+     inkscape:cy="617.21195"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11">
+      <circle
+         style="fill:#0288d1;fill-opacity:1;stroke:none;stroke-width:16.2744"
+         id="circle11"
+         cx="70.042175"
+         cy="164.11043"
+         r="6.6145835" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#0288d1;fill-opacity:1;stroke:none;stroke-width:16.2744"
+       id="path2"
+       cx="70.042175"
+       cy="164.11043"
+       r="6.6145835"
+       sodipodi:insensitive="true" />
+    <path
+       d="m 79.072474,168.51626 c 0.319116,0.32022 -0.973079,0.29458 -1.374327,0.50285 -0.533046,0.2849 -1.49057,1.81165 -2.075059,1.65776 -1.551273,-0.39051 -8.286477,-6.09062 -8.676994,-7.6419 -0.15388,-0.58449 -0.08107,-1.20554 0.203831,-1.73859 0.208269,-0.40126 0.746236,-0.48486 1.066461,-0.16574 l 11.210406,4.8171 c 0.19541,0.19345 -0.227907,0.48724 -0.338191,0.73912 -0.05896,0.13806 -0.02851,0.0359 -0.132849,0.14379 -0.756904,0.7569 -8.463256,-0.69345 -7.706668,-1.45067 0.10795,-0.10471 0.234174,-0.18875 0.372419,-0.24796 0.251864,-0.11048 6.230956,2.02342 6.424319,2.219 z"
+       id="path1-2"
+       style="fill:#0277b9;fill-opacity:1;stroke-width:0.317493"
+       sodipodi:nodetypes="ccccccccccccc"
+       clip-path="url(#clipPath11)" />
+    <path
+       d="m 73.021967,165.93623 a 0.66927622,0.66927593 0 0 1 -0.165733,1.06645 2.3948533,2.3948522 0 0 1 -1.738593,0.20383 c -1.551273,-0.39051 -3.78103,-2.62026 -4.171547,-4.17154 a 2.3948533,2.3948522 0 0 1 0.203831,-1.73859 0.66927622,0.66927593 0 0 1 1.066461,-0.16574 l 0.661974,0.66166 a 0.66483131,0.66483102 0 0 1 0.141283,0.73912 1.2309222,1.2309217 0 0 1 -0.247009,0.37211 c -0.756904,0.7569 1.719862,3.23367 2.47645,2.47645 a 1.2309222,1.2309217 0 0 1 0.372419,-0.24796 0.66419633,0.66419604 0 0 1 0.739125,0.14128 z"
+       id="path1-7"
+       style="fill:#d1c2a9;fill-opacity:1;stroke-width:0.317493"
+       sodipodi:insensitive="true" />
+  </g>
+</svg>
