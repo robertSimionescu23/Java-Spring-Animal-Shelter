@@ -6,14 +6,14 @@
 }
 
 .logo{
-    width: 120px;
-    height: 100px;
-    margin: 10px;
+    width: 100px;
+    height: 60px;
+    /* margin-top:10px; */
 }
 
 .name{
     color:#0277BD;
-    font-size: 32px;
+    font-size: 24px;
     text-align: center;
 }
 
@@ -22,6 +22,7 @@
     border: none;
     cursor: pointer;
     margin-left: 120px;
+    font-size: 20px;
 }
 
 .buttonWrapper{
@@ -34,4 +35,5 @@
 .logoWrapper{
     display: flex;
     flex-direction: row;
+    align-items: center;
 }

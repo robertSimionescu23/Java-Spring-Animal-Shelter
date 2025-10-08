@@ -6,9 +6,9 @@ import Button from '../../../components/button';
 function QuickBar() {
     return <div className={styles.bar}>
         <img className = {styles.buttonImage} src={pawButton}></img>
-        <Button text = "Adopta"></Button>
+        <Button text = "Adopt"></Button>
         <img className = {styles.buttonImage} src={phoneButton}></img>
-        <Button text = "Sesizari 077xxxxxxx"></Button>
+        <Button text = "Rescue 077xxxxxxx"></Button>
     </div>
 }
 

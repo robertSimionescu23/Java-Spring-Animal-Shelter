@@ -8,9 +8,9 @@ function Navbar() {
             <h1 className = {styles.name}>Spring <br/>Animal Shelter</h1>
         </div>
         <div className = {styles.buttonWrapper}>
-            <button className = {`${styles.name} ${styles.navButton}`}>Adoptii</button>
-            <button className = {`${styles.name} ${styles.navButton}`}>Misiune</button>
-            <button className = {`${styles.name} ${styles.navButton}`}>Despre Noi</button>
+            <button className = {`${styles.name} ${styles.navButton}`}>Adopt</button>
+            <button className = {`${styles.name} ${styles.navButton}`}>Mission</button>
+            <button className = {`${styles.name} ${styles.navButton}`}>About us</button>
         </div>
     </div>
 }
