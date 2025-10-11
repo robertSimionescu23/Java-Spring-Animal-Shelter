@@ -1,4 +1,5 @@
 import './App.css'
+import AnimalDisplay from './features/animalDisplay/components/AnimalDisplay';
 import Hero from './features/hero/components/Hero';
 import Navbar from './features/navbar/components/Navbar';
 import QuickBar from './features/quickbar/components/Quickbar';
@@ -10,6 +11,7 @@ function App() {
         <QuickBar></QuickBar>
         <Navbar></Navbar>
         <Hero></Hero>
+        <AnimalDisplay></AnimalDisplay>
     </>
   )
 }

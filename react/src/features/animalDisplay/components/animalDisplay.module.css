@@ -1,0 +1,63 @@
+.animalDisplayWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color:#0277BD;
+}
+
+.slot{
+    width: 60%;
+    height: 400px;
+    display: flex;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.left{
+    flex-direction: row;
+}
+
+.right{
+    flex-direction: row-reverse;
+}
+
+.slotPic{
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.slotPicRight{
+    margin-right: 40px;
+}
+
+.slotPicLeft{
+    margin-left: 40px;
+}
+
+.slotText{
+    color: white;
+}
+
+.description{
+    border-radius: 20px;
+    background-color: #0277BD;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.nameLeft{
+    color: white;
+    align-self: center;
+}
+
+.nameRight{
+    align-self: center;
+    color: white;
+}
+
+.slotText{
+    margin: 20px;
+}

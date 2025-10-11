@@ -1,6 +1,100 @@
-.heroPic{
+.heroPicWrapper{
+    position: relative;
     width: 100%;
     height: 70vh;
+}
+
+.heroPic{
+    opacity: 0;
+    position : absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.frame1{
+    background: url("../assets/hero1cropped.jpg");
+    background-size:  100% 100%;
+    animation: fade1 30s infinite linear;
+}
+
+ .frame2{
+    background: url("../assets/hero2cropped.jpg");
+    background-size: 100% 100%;
+    animation: fade2 30s infinite linear;
+}
+
+ .frame3{
+    background: url("../assets/hero3cropped.jpg");
+    background-size: 100% 100%;
+    animation: fade3 30s   infinite linear;
+}
+
+@keyframes fade1{
+    0%{
+        opacity: 1;
+    }
+    23%{
+        opacity: 1;
+        filter: blur(0);
+    }
+    33%{
+        opacity: 0;
+        filter: blur(5px);
+    }
+    90%{
+        opacity: 0;
+        filter: blur(5px);
+    }
+    100%{
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes fade2{
+    0%{
+        opacity: 0;
+    }
+    23%{
+        opacity: 0;
+        filter: blur(5px);
+    }
+    33%{
+        opacity: 1;
+        filter: blur(0);
+    }
+    56%{
+        opacity: 1;
+        filter: blur(0);
+    }
+    66%{
+        opacity: 0;
+        filter: blur(5px);
+    }
+}
+
+@keyframes fade3{
+    0%{
+        opacity: 0;
+    }
+    56%{
+        opacity: 0;
+        filter: blur(5px);
+    }
+    66%{
+        opacity: 1;
+        filter: blur(0);
+    }
+    90%{
+        opacity: 1;
+        filter: blur(0);
+    }
+    100%{
+        opacity: 0;
+        filter: blur(5px);
+    }
 }
 
 .heroWrapper{
@@ -38,32 +132,4 @@
 
 .secText{
     margin-top: 0px;
-}
-
-.portraitWrapper{
-    margin-left: -100%;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0;
-    display: row;
-    height: 70vh;
-    flex-direction: column;
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.portraitColumn{
-    display: block;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.portrait{
-    display: block;
-    height: 35vh;
-    width: 35vh;
-    margin: 0;
-    padding: 0;
 }
