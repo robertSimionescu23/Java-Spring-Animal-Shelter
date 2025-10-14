@@ -1,18 +1,16 @@
-import './App.css'
-import AnimalDisplay from './features/animalDisplay/components/AnimalDisplay';
-import Hero from './features/hero/components/Hero';
-import Navbar from './features/navbar/components/Navbar';
-import QuickBar from './features/quickbar/components/Quickbar';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+
 function App() {
-//TODO: For the main page have a grid, that when you hover, you get more details in a 2 box element
 //TODO: In the actual catalogue, make them all in a list with traits
   return (
-    <>
-        <QuickBar></QuickBar>
-        <Navbar></Navbar>
-        <Hero></Hero>
-        <AnimalDisplay></AnimalDisplay>
-    </>
+    <Router>
+        <Routes>
+            <Route path = "/" element = {<MainPage/>}/>
+            {/* TODO: Implement the adoption page as a grid */}
+            <Route path = "/adopt" element = {<></>}/>
+        </Routes>
+    </Router>
   )
 }
 

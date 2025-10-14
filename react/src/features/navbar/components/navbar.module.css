@@ -7,12 +7,13 @@
 
 .logo{
     width: 100px;
-    height: 60px;
-    /* margin-top:10px; */
+    height: 70px;
+    margin-top:2px;
+    margin-bottom:2px;
 }
 
 .name{
-    color:#0277BD;
+    color:var(--main-color);
     font-size: 24px;
     text-align: center;
 }

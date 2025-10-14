@@ -1,4 +1,4 @@
-.button{
+.buttonWithIcon{
     color: white;
     background-color: #79C3FF;
     border: none;
@@ -11,4 +11,5 @@
     padding-right: 30px;
     margin-right: 50px;
     white-space: nowrap;
+    width: fit-content;
 }

@@ -2,6 +2,7 @@
     position: relative;
     width: 100%;
     height: 70vh;
+    margin: 0;
 }
 
 .heroPic{
@@ -11,6 +12,7 @@
     top: 0;
     width: 100%;
     height: 100%;
+
 }
 
 .frame1{
@@ -101,11 +103,12 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    margin: 0;
 }
 
 .backgroundCircle{
     width: 800px;
-    height: 50vh;
+    height: 35vh;
     background-color: #0278bd48;
     border-radius: 100% 0 0 0 ;
     filter: blur(5px);

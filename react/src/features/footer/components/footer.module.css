@@ -1,0 +1,48 @@
+.footerBackground{
+    width: 100%;
+    height: 400px;
+    background-image: linear-gradient(to right, #0278bde7, #0278bd50),url("../assets/footerImage.jpg");
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.footerText{
+    /* color: White; */
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+
+.footerContent{
+    position: relative;
+    top: 100px;
+    left: 50px;
+}
+.icon{
+    width: 40px;
+    height: 40px;
+}
+
+.contactBox{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.contactText{
+    color: white;
+    font-size: 24px;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.divider{
+    width: 430px;
+    border-bottom: 1px solid white;
+    margin-bottom: 30px;
+}

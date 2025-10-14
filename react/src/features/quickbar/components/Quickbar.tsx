@@ -1,14 +1,14 @@
 import styles from './quickbar.module.css';
 import pawButton from "../assets/pawButton.svg"
 import phoneButton from "../assets/phoneButtonSource.svg"
-import Button from '../../../components/button';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 
 function QuickBar() {
     return <div className={styles.bar}>
         <img className = {styles.buttonImage} src={pawButton}></img>
-        <Button text = "Adopt"></Button>
+        <ButtonWithIcon text = "Adopt"></ButtonWithIcon>
         <img className = {styles.buttonImage} src={phoneButton}></img>
-        <Button text = "Rescue 077xxxxxxx"></Button>
+        <ButtonWithIcon text = "Rescue 077xxxxxxx"></ButtonWithIcon>
     </div>
 }
 

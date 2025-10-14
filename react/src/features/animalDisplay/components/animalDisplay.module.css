@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color:#0277BD;
+    color:var(--main-color);
 }
 
 .slot{
@@ -42,7 +42,7 @@
 
 .description{
     border-radius: 20px;
-    background-color: #0277BD;
+    background-color: var(--main-color);
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -59,5 +59,27 @@
 }
 
 .slotText{
-    margin: 20px;
+    margin: 30px;
+    font-size: 24px;
+    text-align:center
+}
+
+.buttonWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.divider{
+
+    width: 150px;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.welcomeTxt{
+    margin-top: 10px;
+    font-size: 32px;
+    color: var(--main-color);
+    text-align: center;
 }
