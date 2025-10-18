@@ -1,85 +1,32 @@
-.animalDisplayWrapper{
+.animalDisplay{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+    margin: 40px;
+    flex-shrink: 0;
+    width: calc(100% - 40px);
+}
+
+.mainWrapper{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color:var(--main-color);
-}
-
-.slot{
-    width: 60%;
-    height: 400px;
-    display: flex;
-    margin: 20px;
-    border-radius: 10px;
-}
-
-.left{
-    flex-direction: row;
-}
-
-.right{
-    flex-direction: row-reverse;
-}
-
-.slotPic{
-    width: 50%;
+    width: 100%;
     height: 100%;
-    border-radius: 20px;
-}
-
-.slotPicRight{
-    margin-right: 40px;
-}
-
-.slotPicLeft{
-    margin-left: 40px;
-}
-
-.slotText{
-    color: white;
-}
-
-.description{
-    border-radius: 20px;
-    background-color: var(--main-color);
-    display: flex;
     flex-direction: column;
-    width: 50%;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-.nameLeft{
-    color: white;
-    align-self: center;
-}
-
-.nameRight{
-    align-self: center;
-    color: white;
-}
-
-.slotText{
-    margin: 30px;
-    font-size: 24px;
-    text-align:center
-}
-
-.buttonWrapper{
+.pageControl{
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    width: 200px;
+    justify-content: space-around;
     align-items: center;
 }
 
-.divider{
-
-    width: 150px;
-    border-bottom: 1px solid var(--main-color);
+.pageDisplay{
 }
 
-.welcomeTxt{
-    margin-top: 10px;
-    font-size: 32px;
-    color: var(--main-color);
-    text-align: center;
+.pageControlButton{
+    width: 30px;
+    height: 30px;
 }

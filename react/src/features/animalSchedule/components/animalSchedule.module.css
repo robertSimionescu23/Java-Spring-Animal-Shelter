@@ -1,0 +1,73 @@
+.mainWrapper{
+    width: 100%;
+    height: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-around;
+}
+
+.scheduleControl{
+    background-color: #bcdcf7;
+    height: 1000px;
+    width: 55%;
+    margin-left: 40px;
+    box-sizing: border-box;
+    padding:30px;
+    display: grid;
+    grid-template: [row1] 40px [allotherrows] repeat(52,1fr)/ [col1] 60px [allothercols] repeat(7, 1fr);
+}
+
+.gridElement{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+.interSection{
+    grid-column: 1;
+    grid-row: 1;
+}
+.hourGrid{
+    grid-column: 1;
+    grid-row: span 4;
+    border-top: none;
+}
+
+.dayGrid{
+    grid-row: 1;
+    border-left: none;
+}
+
+.animalAbout{
+    width: 20%;
+    height: 500px;
+}
+.animalPic{
+    width: 100%;
+    height: 80%;
+}
+
+.scheduleBlock{
+    border: none;
+    border-right: 1px solid black;
+    position: relative;
+}
+
+.scheduleBlock::before{
+    content:"";
+    background-color: var(--main-color);
+    position: absolute;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.scheduleBlockNoAfter{
+    border: none;
+    border-right: 1px solid black;
+    position: relative;
+}

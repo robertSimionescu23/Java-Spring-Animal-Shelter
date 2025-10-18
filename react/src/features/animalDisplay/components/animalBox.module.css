@@ -1,0 +1,44 @@
+.mainWrapper{
+    aspect-ratio: 1/1;
+    position: relative;
+    cursor: pointer;
+}
+
+.picture{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 40px;
+
+}
+
+.name{
+    width: fit-content;
+    color: black;
+    font-size: 28px;
+    margin: 10px;
+
+}
+
+.textBox{
+    position: relative;
+    min-width: fit-content;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 75%;
+    background-color: white;
+    padding: 5px;
+    transform: translate(-50%);
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.info{
+    font-size: 24px;
+}
