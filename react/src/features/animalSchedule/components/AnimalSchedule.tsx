@@ -53,10 +53,16 @@ function AnimalSchedule(){
         day: number
     };
 
+    type TimeString = {
+        hour: string,
+        day: string
+    }
+
 
     const [endingTime, setEndingTime]    = useState<TimeIndexed| null>(null);
     const [startingTime, setStartingTime] = useState<TimeIndexed| null>(null);
     const [visitMap, setVisitMap] = useState<Map<string, number>>(new Map());
+    const [hoverLength, setHoverLength] = useState<number>(1);
 
     useEffect(() => {
         if(endingTime && startingTime){
@@ -71,10 +77,100 @@ function AnimalSchedule(){
         setEndingTime(null);
     }, [endingTime]);
 
-    useEffect(()=>{
-        console.log(visitMap);
-    },[visitMap])
+    const convertTimeIndexToTimeString = (time: TimeIndexed): TimeString =>{
+        const timeString: TimeString = {hour: "", day: ""};
+        switch(time.day){
+            case 0:
+                timeString.day = "Monday";
+                break;
+            case 1:
+                timeString.day = "Tuesday";
+                break;
+            case 2:
+                timeString.day = "Wednesday";
+                break;
+            case 3:
+                timeString.day = "Thursday";
+                break;
+            case 4:
+                timeString.day = "Friday";
+                break;
+            case 5:
+                timeString.day = "Saturday";
+                break;
+            case 6:
+                timeString.day = "Sunday";
+                break;
+        }
 
+        let minutes: string;
+        switch(time.hour  % 4){
+            case 1:
+                minutes = ":15";
+                break;
+            case 2:
+                minutes = ":30";
+                break;
+            case 3:
+                minutes = ":45";
+                break;
+            case 0:
+                minutes = ":00";
+                break;
+            default:
+                minutes = ":x";
+                break;
+        }
+
+        let hour: string;
+
+        switch(Math.floor(time.hour / 4)){
+            case 0:
+                hour = "8";
+                break;
+            case 1:
+                hour = "9";
+                break;
+            case 2:
+                hour = "10";
+                break;
+            case 3:
+                hour = "11";
+                break;
+            case 4:
+                hour = "12";
+                break;
+            case 5:
+                hour = "13";
+                break;
+            case 6:
+                hour = "14";
+                break;
+            case 7:
+                hour = "15";
+                break;
+            case 8:
+                hour = "16";
+                break;
+            case 9:
+                hour = "17";
+                break;
+            case 10:
+                hour = "18";
+                break;
+            case 11:
+                hour = "19";
+                break;
+            case 12:
+                hour = "20";
+                break;
+            default:
+                hour = "x";
+                break;
+        }
+        timeString.hour = hour + minutes;
+        return timeString;
+    };
 
     const handleClick = (dayIndex: number, hourIndex:number) => {
         if (startingTime == null)
@@ -115,8 +211,19 @@ function AnimalSchedule(){
 
             }
         }
-        console.log(startingTime);
         //TODO: Make it so that the first time slot pressed is highlighted
+
+    }
+
+    const handleHover = (hourIndex: number, dayIndex: number) =>{
+        // console.log(startingTime?.day == dayIndex);
+        console.log(startingTime?.hour === hourIndex);
+            if(startingTime?.day === dayIndex){
+                if(hourIndex - startingTime.hour> -1)
+                    setHoverLength(hourIndex - startingTime.hour + 1);
+
+            }else
+                setHoverLength(1);
 
     }
 
@@ -132,19 +239,44 @@ function AnimalSchedule(){
                     <div key = {index} className = {`${styles.dayGrid} ${styles.gridElement}`}>{day}</div>
                 ))}
                 <div className = {`${styles.interSection} ${styles.gridElement}`}></div>
-                {/* Day index are from 0 to 7. Hour Indexes follow teh same principle */}
+                {/* Day index are from 0 to 7. Hour Indexes are 4 per hour */}
                 {scheduleGrid.map((day, dayIndex)=>(
-                    day.map((hour, hourIndex)=>(
+                    day.map((_, hourIndex)=>(
                          <div key={`${dayIndex}-${hourIndex}`}
-                            className={hour?`${styles.gridElement} ${styles.scheduleBlock}`:`${styles.gridElement} ${styles.scheduleBlockNoAfter}`}
-                            style={{"gridRow":`${hourIndex + 2} / span ${visitMap.has(`${dayIndex}-${hourIndex}`)?visitMap.get(`${dayIndex}-${hourIndex}`) : 1}`,
-                                   "gridColumn":`${dayIndex + 2}`,
-                                   "borderBottom":`${(hourIndex%4 == 3)? "1px solid black":""}`,
-                                   "zIndex":`${visitMap.has(`${dayIndex}-${hourIndex}`)?"2" : "1"}`
+                            className={`${styles.scheduleGrid} ${styles.unscheduled} `}
+                            style={{"gridRow":`${hourIndex + 2} / span 1`,
+                                   "gridColumn":`${dayIndex + 2}`
                                    }}
                             onClick={() => handleClick(dayIndex, hourIndex)}
+                            onMouseEnter={() => handleHover(hourIndex, dayIndex)}
                         >
-                            {visitMap.has(`${dayIndex}-${hourIndex}`)?`Visit scheduled`:""}
+                                {visitMap.has(`${dayIndex}-${hourIndex}`) &&
+                                   <div className={`${styles.visitBlock} `}
+                                    style ={{height: `calc(${(visitMap.get(`${dayIndex}-${hourIndex}`) ?? 0)} * 100%)`}}>
+                                    {(() => {
+                                        const duration = visitMap.get(`${dayIndex}-${hourIndex}`) ?? 0;
+                                        const timeStringStart = convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex});
+                                        const stopHourIndex: number = hourIndex + duration;
+                                        const timeStringEnd = convertTimeIndexToTimeString({day: dayIndex, hour: stopHourIndex});
+                                        return `${timeStringStart.hour} - ${timeStringEnd.hour}`;
+                                    })()}
+                                   </div>
+                                }
+
+                                {/* Initial select */}
+                                {(startingTime && hourIndex === startingTime.hour && dayIndex === startingTime.day)&&
+                                <>
+                                <div className={`${styles.selectedSlot}`}
+                                style = {{height : `calc(${hoverLength} * 100%)`}}>
+                                    {`${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex}).hour} - ${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex + hoverLength}).hour}`}
+                                </div>
+                                <div className={`${styles.selectTextBubble}`}>
+                                    Press the time slot you would like this visit to end at. This can be changed later.
+                                </div>
+                                </>
+
+
+                                }
                         </div>
                     ))
                 ))}
@@ -152,6 +284,8 @@ function AnimalSchedule(){
             </div>
             {/* TODO:Make this be the photo from the backend */}
             {/* TODO:Make this a full picture show off */}
+            {/* TODO:Adjust styling of this page once functionality is set  */}
+            {/* TODO: Make choosing the calendar date possibile*/}
             <div className={styles.animalAbout}>
                 <img src = {saschaImg} className = {styles.animalPic}></img>
                 <div className = {styles.animalInfo}></div>
