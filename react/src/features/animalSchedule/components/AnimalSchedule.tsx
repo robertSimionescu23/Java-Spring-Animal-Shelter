@@ -79,30 +79,16 @@ function AnimalSchedule(){
 
     const convertTimeIndexToTimeString = (time: TimeIndexed): TimeString =>{
         const timeString: TimeString = {hour: "", day: ""};
-        switch(time.day){
-            case 0:
-                timeString.day = "Monday";
-                break;
-            case 1:
-                timeString.day = "Tuesday";
-                break;
-            case 2:
-                timeString.day = "Wednesday";
-                break;
-            case 3:
-                timeString.day = "Thursday";
-                break;
-            case 4:
-                timeString.day = "Friday";
-                break;
-            case 5:
-                timeString.day = "Saturday";
-                break;
-            case 6:
-                timeString.day = "Sunday";
-                break;
-        }
+        timeString.day = days[time.day];
 
+        let hour:string;
+
+        if(Math.floor(time.hour / 4) <= 12)
+            hour = hours[Math.floor(time.hour / 4)].split(":")[0]; //Each hour has 4 indexes, for the 15 minute intervals available
+        else
+            hour = '21'; //This hour is theoreticly out of schedule. the visit cand end at 21:00 but not start.
+
+        console.log(Math.floor(time.hour / 4))
         let minutes: string;
         switch(time.hour  % 4){
             case 1:
@@ -122,52 +108,7 @@ function AnimalSchedule(){
                 break;
         }
 
-        let hour: string;
 
-        switch(Math.floor(time.hour / 4)){
-            case 0:
-                hour = "8";
-                break;
-            case 1:
-                hour = "9";
-                break;
-            case 2:
-                hour = "10";
-                break;
-            case 3:
-                hour = "11";
-                break;
-            case 4:
-                hour = "12";
-                break;
-            case 5:
-                hour = "13";
-                break;
-            case 6:
-                hour = "14";
-                break;
-            case 7:
-                hour = "15";
-                break;
-            case 8:
-                hour = "16";
-                break;
-            case 9:
-                hour = "17";
-                break;
-            case 10:
-                hour = "18";
-                break;
-            case 11:
-                hour = "19";
-                break;
-            case 12:
-                hour = "20";
-                break;
-            default:
-                hour = "x";
-                break;
-        }
         timeString.hour = hour + minutes;
         return timeString;
     };
@@ -183,26 +124,25 @@ function AnimalSchedule(){
             }
             else{
                 let isFree: boolean = true;
-                let startingPoint: number = startingTime.hour;
+                const startingPoint: number = startingTime.hour;
                 let endingPoint: number;
 
-                //Switch starting point of visit depending on the clicked time slots
+                //Disable visits with end times before the starting time
                 if(startingTime.hour < hourIndex)
                     endingPoint = hourIndex;
-                else{
-                    endingPoint = startingTime.hour;
-                    startingPoint = hourIndex;
-                }
+                else
+                    endingPoint = startingPoint;
 
                 //Make sure that no 2 visits overlap
                 for(let i: number = startingPoint; i <= endingPoint; i ++)
                     if(scheduleGrid[dayIndex][i] ==  true)
                         isFree = false;
 
+                //If the time slot is free for a visit, lock it
                 if(isFree){
                     for(let i: number = startingPoint; i <= endingPoint; i ++)
                         scheduleGrid[dayIndex][i] = true;
-                    setEndingTime({day:dayIndex, hour:hourIndex});
+                    setEndingTime({day:dayIndex, hour:endingPoint});
                 }
                 //If they overlap, start over
                 else{
@@ -216,14 +156,12 @@ function AnimalSchedule(){
     }
 
     const handleHover = (hourIndex: number, dayIndex: number) =>{
-        // console.log(startingTime?.day == dayIndex);
-        console.log(startingTime?.hour === hourIndex);
-            if(startingTime?.day === dayIndex){
-                if(hourIndex - startingTime.hour> -1)
-                    setHoverLength(hourIndex - startingTime.hour + 1);
+        if(startingTime?.day === dayIndex){
+            if(hourIndex - startingTime.hour> -1)
+                setHoverLength(hourIndex - startingTime.hour + 1);
 
-            }else
-                setHoverLength(1);
+        }else
+            setHoverLength(1);
 
     }
 
@@ -264,15 +202,15 @@ function AnimalSchedule(){
                                 }
 
                                 {/* Initial select */}
-                                {(startingTime && hourIndex === startingTime.hour && dayIndex === startingTime.day)&&
+                                {(startingTime && hourIndex === startingTime.hour && dayIndex === startingTime.day && !visitMap.has(`${dayIndex}-${hourIndex}`))&&
                                 <>
-                                <div className={`${styles.selectedSlot}`}
-                                style = {{height : `calc(${hoverLength} * 100%)`}}>
-                                    {`${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex}).hour} - ${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex + hoverLength}).hour}`}
-                                </div>
-                                <div className={`${styles.selectTextBubble}`}>
-                                    Press the time slot you would like this visit to end at. This can be changed later.
-                                </div>
+                                    <div className={`${styles.selectedSlot}`}
+                                    style = {{height : `calc(${hoverLength} * 100%)`}}>
+                                        {`${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex}).hour} - ${convertTimeIndexToTimeString({day: dayIndex, hour: hourIndex + hoverLength}).hour}`}
+                                    </div>
+                                    <div className={`${styles.selectTextBubble}`}>
+                                        Press the time slot you would like this visit to end at. This can be changed later.
+                                    </div>
                                 </>
 
 
