@@ -19,5 +19,30 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Enforce type declarations
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        {
+          allowExpressions: false,
+          allowTypedFunctionExpressions: true,
+          allowHigherOrderFunctions: true,
+        },
+      ],
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/typedef': [
+        'error',
+        {
+          arrayDestructuring: false,
+          arrowParameter: false,
+          memberVariableDeclaration: true,
+          objectDestructuring: false,
+          parameter: true,
+          propertyDeclaration: true,
+          variableDeclaration: true,
+          variableDeclarationIgnoreFunction: false,
+        },
+      ],
+    },
   },
 ])
