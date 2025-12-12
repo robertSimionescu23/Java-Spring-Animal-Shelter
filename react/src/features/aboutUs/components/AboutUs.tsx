@@ -1,7 +1,7 @@
 import styles from "./aboutUs.module.css";
-import spring from "../assets/spring.png"
+import spring from "../assets/spring-boot-svgrepo-com.svg"
 
-function AboutUs({ref} :{ref: React.RefObject<HTMLHeadingElement | null>}) {
+function AboutUs({ref} :{ref: React.RefObject<HTMLHeadingElement | null>}) : React.ReactElement {
 
     return <section className={styles.aboutUs} id="aboutUs">
         <h1 ref = {ref}>About us</h1>
@@ -10,7 +10,7 @@ function AboutUs({ref} :{ref: React.RefObject<HTMLHeadingElement | null>}) {
         <div className = {styles.contentWrapper}>
             <img className = {`${styles.image}`} src={spring}></img>
             <p>Welcome to Spring Animal Shelter, a fictional animal shelter created as part of a Spring Boot portfolio project. This project showcases backend development skills such as RESTful API design, database integration, and CRUD operations — all centered around managing animal adoption data in a realistic,
-                 compassionate setting. While the shelter isn’t real, the technology and functionality behind it are fully implemented.</p>
+                 compassionate setting. While the shelter isn't real, the technology and functionality behind it are fully implemented.</p>
         </div>
     </section>
 }

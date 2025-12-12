@@ -6,19 +6,20 @@ import Navbar from '../features/navbar/components/Navbar';
 import QuickBar from '../features/quickbar/components/Quickbar';
 
 import {useRef} from "react";
-function MainPage() {
+function MainPage(): React.ReactElement {
 
     //TODO: In the actual catalogue, make them all in a list with traits
-    const aboutUsRef = useRef<HTMLHeadingElement | null>(null);
+    const aboutUsRef: React.RefObject<HTMLHeadingElement | null> = useRef(null);
+    const footerRef: React.RefObject<HTMLHeadingElement | null> = useRef(null);
     return (
     <>
         <QuickBar></QuickBar>
-        <Navbar aboutUsRef={aboutUsRef}></Navbar>
+        <Navbar aboutUsRef={aboutUsRef} footerRef={footerRef}></Navbar>
         <Hero></Hero>
         <Divider></Divider>
         <AboutUs ref = {aboutUsRef}></AboutUs>
         <Divider></Divider>
-        <Footer></Footer>
+        <Footer ref = {footerRef}></Footer>
     </>
   )
 }

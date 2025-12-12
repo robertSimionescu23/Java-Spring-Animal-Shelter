@@ -8,13 +8,14 @@
     height: 100%;
     height: fit-content;
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .scheduleControl{
     background-color: #bcdcf7;
     height: 1000px;
-    width: 55%;
+    width: 100%;
     margin-left: 40px;
     padding:30px;
     display: grid;
@@ -46,15 +47,6 @@
 .dayGrid{
     grid-row: 1;
     border-left: none;
-}
-
-.animalAbout{
-    width: 20%;
-    height: 500px;
-}
-.animalPic{
-    width: 100%;
-    height: 80%;
 }
 
 .scheduleBlock{
@@ -115,4 +107,43 @@
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
 
+}
+
+.animalAbout{
+    width: fit-content;
+    height: fit-content;
+    margin-right: 50px;
+}
+
+.animalPic{
+    border-radius: 25px;
+    border: lightskyblue 10px solid;
+    width: 25vw;
+    height: 40vh;
+}
+
+.scheduleGridContainer{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 60vw;
+    margin-left: 50px;
+}
+
+.instructionText{
+    font-size: x-large;
+    margin-bottom: 5px;
+}
+
+.description{
+    background-color: lightskyblue;
+    text-align: center;
+    height: 150px;
+    border-radius: 25px;
+}
+
+.hourAndDate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

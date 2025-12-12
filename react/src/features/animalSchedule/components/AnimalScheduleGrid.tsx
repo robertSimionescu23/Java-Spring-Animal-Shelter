@@ -4,15 +4,35 @@ import styles from "./animalSchedule.module.css"
 function AnimalScheduleGrid(): React.ReactElement{
 
     const hours:string[] = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
-    const days:string[] = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
+    const days:string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const currDate:  Date = new Date();
+    const shownDate: Date = new Date();
 
     const masterSchedule: boolean[][] = [];
+
+    const getWeekDates: (date: Date) => Date[] = (date) =>{
+        const temp: Date[] = [];
+        const mondayDate: Date = new Date();
+        mondayDate.setDate(date.getDate() - date.getDay() + 1)
+
+        for (let i:number = 0; i < 7; i++){
+            temp[i] = new Date();
+            temp[i].setDate(mondayDate.getDate() + i)
+        }
+
+        return temp;
+    }
+
+    let weekDates: Date[] = getWeekDates(currDate);
+
+    const notCurrentWeekk: boolean = currDate >= weekDates[6];
 
     //For each day in the schedule, create a "mini-schedule" that will be added to the week schedule
     for(let i:number = 0; i < days.length; i++){
         const daySchedule: boolean[] = Array(hours.length * 4).fill(false);
         masterSchedule[i] = daySchedule;
     }
+
 
     const [scheduleGrid, setScheduleGrid] = useState<boolean[][]>(masterSchedule);
 
@@ -32,6 +52,7 @@ function AnimalScheduleGrid(): React.ReactElement{
     const [visitMap, setVisitMap] = useState<Map<string, number>>(new Map());
     const [hoverLength, setHoverLength] = useState<number>(1);
     const [tentativeStart, setTentativeStart] = useState<TimeIndexed | null>(null);
+    const [isActive, setIsActive] = useState<boolean>(false);
 
     useEffect(() => {
         if(endingTime && startingTime){
@@ -42,6 +63,8 @@ function AnimalScheduleGrid(): React.ReactElement{
                 tempMap.set(`${endingTime.day}-${endingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
             setVisitMap(tempMap);
         }
+        if(startingTime && endingTime)
+            console.log(convertTimeIndexToTimeString(startingTime).hour + "-" + convertTimeIndexToTimeString({hour:endingTime.hour + 1, day:endingTime.day}).hour+ " " + convertTimeIndexToTimeString(startingTime).day)
         setStartingTime(null);
         setEndingTime(null);
     }, [endingTime]);
@@ -89,6 +112,9 @@ function AnimalScheduleGrid(): React.ReactElement{
         if (startingTime == null)
             setStartingTime({day:dayIndex, hour:hourIndex});
         else{
+            //Started on a booked slot
+            if(scheduleGrid[dayIndex][hourIndex])
+                setStartingTime(null);
             //Case where another column has been clicked (days do not match)
             if(startingTime.day != dayIndex){
                 setStartingTime(null);
@@ -107,11 +133,12 @@ function AnimalScheduleGrid(): React.ReactElement{
 
                 //Make sure that no 2 visits overlap
                  let lastFreeSlot: number = -1;
-                //Make sure that no 2 visits overlap
+
                 for(let i: number = startingPoint; i <= endingPoint; i ++)
                     if(scheduleGrid[dayIndex][i] == true){
                         lastFreeSlot = i - 1;
                         isFree = false;
+                        console.log(isFree)
                         break
                 }
 
@@ -151,12 +178,10 @@ function AnimalScheduleGrid(): React.ReactElement{
 
             }
         }
-        //TODO: Make it so that the first time slot pressed is highlighted
-
     }
 
     const handleHover: (hourIndex: number, dayIndex: number) => void = (hourIndex, dayIndex) =>{
-        if(startingTime == null && !scheduleGrid[dayIndex][hourIndex]){
+        if(startingTime == null && !scheduleGrid[dayIndex][hourIndex] && isActive){
             setTentativeStart({day: dayIndex, hour: hourIndex});
         }
         else if(startingTime?.day === dayIndex){
@@ -185,13 +210,22 @@ function AnimalScheduleGrid(): React.ReactElement{
     }
 
     return(
-        <div className = {styles.scheduleControl}>
+    <section className = {styles.scheduleGridContainer}>
+        <div className={styles.instructionText}>Please select the starting time of your intended visit and then, it's ending time.</div>
+        <div>
+            <button>Next Week</button>
+            {notCurrentWeekk && <button>Previous Week</button>}
+        </div>
+        <div className = {styles.scheduleControl} onMouseEnter={()=>setIsActive(true)} onMouseLeave={()=>{setIsActive(false); setTentativeStart(null)}}>
                 <div className = {`${styles.interSection} ${styles.gridElement}`}></div>
                 {hours.map((hour, index) =>(                 //Hour Column on left
                     <div key = {index} className = {`${styles.hourGrid} ${styles.gridElement}`}>{hour}</div>
                 ))}
                 {days.map((day, index) =>(                   //Day Column on top
-                    <div key = {index} className = {`${styles.dayGrid} ${styles.gridElement}`}>{day}</div>
+                    <div key = {index} className = {`${styles.dayGrid} ${styles.gridElement} ${styles.hourAndDate}`}>
+                        <div>{day}</div>
+                        <div>{weekDates[index].toLocaleDateString()}</div>
+                    </div>
                 ))}
                 <div className = {`${styles.interSection} ${styles.gridElement}`}></div>
                 {/* Day index are from 0 to 7. Hour Indexes are 4 per hour */}
@@ -239,6 +273,7 @@ function AnimalScheduleGrid(): React.ReactElement{
                 ))}
 
             </div>
+    </section>
     )
 }
 

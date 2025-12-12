@@ -11,6 +11,11 @@
     top: 0;
     left: 0;
     border-radius: 40px;
+    font-size: x-large;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    object-fit: cover;
 
 }
 

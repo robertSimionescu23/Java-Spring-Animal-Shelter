@@ -1,12 +1,12 @@
-import AnimalSchedule from "../features/animalSchedule/components/AnimalSchedule";
 import Navbar from "../features/navbar/components/Navbar";
 import QuickBar from "../features/quickbar/components/Quickbar";
+import AnimalPageContainer from "../features/animalInfoPage/components/AnimalPage";
 
-function AnimalPage(){
+function AnimalPage():React.ReactElement{
     return<>
         <QuickBar></QuickBar>
         <Navbar></Navbar>
-        <AnimalSchedule></AnimalSchedule>
+        <AnimalPageContainer></AnimalPageContainer>
     </>
 }
 

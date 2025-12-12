@@ -5,11 +5,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.springframework.http.HttpHeaders;
-
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("api/v1/animal")
+@CrossOrigin(origins = "*")
+
 public class AnimalController extends ControllerBase<
     Animal,
     AnimalRequestDTO,
@@ -31,7 +33,7 @@ public class AnimalController extends ControllerBase<
 
     @PatchMapping("admin/patch/{field}/{id}")
     public ResponseEntity<AnimalResponseDTO> patch(@PathVariable Long id, @PathVariable String field, @RequestBody AnimalRequestDTO req){
-        AnimalResponseDTO response= service.patch(id, field, req);
+        AnimalResponseDTO response= ((AnimalService) service).patch(id, field, req);
         return ResponseEntity.ok(response);
     }
 
@@ -71,7 +73,16 @@ public class AnimalController extends ControllerBase<
 
     @PatchMapping("admin/changePrimaryPic/{id}/{index}")
     public ResponseEntity<AnimalResponseDTO> changePrimaryPic(@PathVariable Long id, @PathVariable int index) throws FileNotFoundException{
-        AnimalResponseDTO response = ((AnimalService) service).changeFirstImage(id, index);
+        AnimalResponseDTO response =  ((AnimalService) service).changeFirstImage(id, index);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("public/page/{page}/{size}")
+    public ResponseEntity<Page<Animal>> getPage(
+        @PathVariable int page,
+        @PathVariable int size
+    ){
+        Page<Animal> response = ((AnimalService) service).getAnimalPage(page, size);
         return ResponseEntity.ok(response);
     }
 

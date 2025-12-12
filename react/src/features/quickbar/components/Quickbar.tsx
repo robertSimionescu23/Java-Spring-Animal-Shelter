@@ -8,7 +8,7 @@ function QuickBar() {
     const navigate = useNavigate();
     return <div className={styles.bar}>
         <img onClick={() => navigate("/adopt")} className = {styles.buttonImage} src={pawButton}></img>
-        <ButtonWithIcon path = "adopt" text = "Adopt"></ButtonWithIcon>
+        <ButtonWithIcon path = "/adopt" text = "Adopt"></ButtonWithIcon>
         <img className = {styles.buttonImage} src={phoneButton}></img>
         <ButtonWithIcon text = "Rescue 077xxxxxxx"></ButtonWithIcon>
     </div>

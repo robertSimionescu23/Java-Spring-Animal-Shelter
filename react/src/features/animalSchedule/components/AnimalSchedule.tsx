@@ -14,7 +14,7 @@ function AnimalSchedule(): React.ReactElement {
             {/* TODO: Make choosing the calendar date possibile*/}
             <div className={styles.animalAbout}>
                 <img src = {saschaImg} className = {styles.animalPic}></img>
-                <div className = {styles.animalInfo}></div>
+                <div className={styles.description}>This is placeholder for the description</div>
             </div>
         </section>
     )

@@ -9,10 +9,14 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ServiceBase;
 import dev.robert.spring_boot.animal_shelter_spring.exceptions.FileExTensionNotSupported;
@@ -174,6 +178,11 @@ public class AnimalService extends ServiceBase<
         Animal response = repository.save(animal);
 
         return mapper.toDTO(response);
+    }
+
+    public Page<Animal> getAnimalPage(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable);
     }
 
 }
