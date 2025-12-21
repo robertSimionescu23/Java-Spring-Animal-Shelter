@@ -120,6 +120,7 @@
     border: lightskyblue 10px solid;
     width: 25vw;
     height: 40vh;
+    object-fit: cover;
 }
 
 .scheduleGridContainer{

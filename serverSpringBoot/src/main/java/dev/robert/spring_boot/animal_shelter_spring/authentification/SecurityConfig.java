@@ -14,11 +14,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
 
+
+    //TODO: ---- PLACE HOLDERS  ------ //
     @Value("${app.admin.ADMIN_USER}")
     private String adminUserName;
 
     @Value("${app.admin.ADMIN_PASSWORD}")
     private String adminPassword;
+    //Make sure actual authentification is done
+    //TODO: ---- PLACE HOLDERS  ------ //
 
     @Bean
     public PasswordEncoder passwordEncoder() {

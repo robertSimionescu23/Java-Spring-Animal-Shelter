@@ -2,9 +2,10 @@
     width: 40%;
     height: 500px;
 }
+/* TODO: Change to use variables so that the picture is in line with grid rows*/
 .animalHeroPic{
-    width: 500px;
-    height: 500px;
+    width: 470px;
+    height: 470px;
     border-radius: 25px;
     object-fit: cover;
 }
@@ -13,6 +14,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    height: 80vh;
+    margin: 40px;
 }
 
 .heroAndScheduleContainer{
@@ -38,7 +41,8 @@
 .name{
     font-size: 40px;
     position: relative;
-    width: fit-content
+    width: fit-content;
+    z-index: 1;
 }
 
 .name::after{
@@ -49,5 +53,59 @@
     background-color: skyblue;
     left: 0;
     bottom: 0;
+    z-index: 1;
+}
 
+.info{
+    height: 100%;
+}
+
+
+.otherPics{
+    display: grid;
+    height: fit-content;
+    grid-template-columns: auto auto auto auto;
+    grid-auto-rows: 1fr ;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+/* TODO: Change so the rows fit in the picture height */
+.animalRegularPic{
+    width: 150px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.focusedPhotoBackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(128, 128, 128, 0.6);
+    height: 110vh;
+    width: 110vw;
+    overflow: hidden;
+}
+
+.focusedPhoto{
+    width: 600px;
+    height: 500px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.focusedPhotoContainer{
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 300px);
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.selectButtons{
+    align-self: center;
 }

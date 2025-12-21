@@ -1,14 +1,40 @@
 import {useState, useEffect} from "react";
 import styles from "./animalSchedule.module.css"
 
+
+    type TimeIndexed = {
+    hour: number,
+    day: number
+};
+
+type TimeString = {
+    hour: string,
+    day: string
+}
+
+
+
+
 function AnimalScheduleGrid(): React.ReactElement{
 
-    const hours:string[] = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
-    const days:string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const currDate:  Date = new Date();
-    const shownDate: Date = new Date();
+    const hours:string[]                = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
+    const days:string[]                 = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const currDate:  Date               = new Date();
+    const masterSchedule: boolean[][]   = [];
+    // const shownDate: Date               = new Date();
+    const [scheduleGrid, setScheduleGrid] = useState<boolean[][]>(masterSchedule);
+    let   weekDates: Date[];
+    let notCurrentWeekk: boolean;
 
-    const masterSchedule: boolean[][] = [];
+
+    const [endingTime, setEndingTime]           = useState<TimeIndexed| null>(null);
+    const [startingTime, setStartingTime]       = useState<TimeIndexed| null>(null);
+    const [visitMap, setVisitMap]               = useState<Map<string, number>>(new Map());
+    const [hoverLength, setHoverLength]         = useState<number>(1);
+    const [tentativeStart, setTentativeStart]   = useState<TimeIndexed | null>(null);
+    const [isActive, setIsActive]               = useState<boolean>(false);
+
+
 
     const getWeekDates: (date: Date) => Date[] = (date) =>{
         const temp: Date[] = [];
@@ -22,52 +48,6 @@ function AnimalScheduleGrid(): React.ReactElement{
 
         return temp;
     }
-
-    let weekDates: Date[] = getWeekDates(currDate);
-
-    const notCurrentWeekk: boolean = currDate >= weekDates[6];
-
-    //For each day in the schedule, create a "mini-schedule" that will be added to the week schedule
-    for(let i:number = 0; i < days.length; i++){
-        const daySchedule: boolean[] = Array(hours.length * 4).fill(false);
-        masterSchedule[i] = daySchedule;
-    }
-
-
-    const [scheduleGrid, setScheduleGrid] = useState<boolean[][]>(masterSchedule);
-
-    type TimeIndexed = {
-        hour: number,
-        day: number
-    };
-
-    type TimeString = {
-        hour: string,
-        day: string
-    }
-
-
-    const [endingTime, setEndingTime]    = useState<TimeIndexed| null>(null);
-    const [startingTime, setStartingTime] = useState<TimeIndexed| null>(null);
-    const [visitMap, setVisitMap] = useState<Map<string, number>>(new Map());
-    const [hoverLength, setHoverLength] = useState<number>(1);
-    const [tentativeStart, setTentativeStart] = useState<TimeIndexed | null>(null);
-    const [isActive, setIsActive] = useState<boolean>(false);
-
-    useEffect(() => {
-        if(endingTime && startingTime){
-            const tempMap: Map<string, number> = new Map(visitMap);
-            if(startingTime.hour < endingTime.hour)
-                tempMap.set(`${startingTime.day}-${startingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
-            else
-                tempMap.set(`${endingTime.day}-${endingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
-            setVisitMap(tempMap);
-        }
-        if(startingTime && endingTime)
-            console.log(convertTimeIndexToTimeString(startingTime).hour + "-" + convertTimeIndexToTimeString({hour:endingTime.hour + 1, day:endingTime.day}).hour+ " " + convertTimeIndexToTimeString(startingTime).day)
-        setStartingTime(null);
-        setEndingTime(null);
-    }, [endingTime]);
 
     const convertTimeIndexToTimeString: (time: TimeIndexed) => TimeString = (time) => {
         const timeString: TimeString = {hour: "", day: ""};
@@ -107,6 +87,16 @@ function AnimalScheduleGrid(): React.ReactElement{
         timeString.hour = hour + minutes;
         return timeString;
     };
+
+
+    //For each day in the schedule, create a "mini-schedule" that will be added to the week schedule
+    for(let i:number = 0; i < days.length; i++){
+        const daySchedule: boolean[] = Array(hours.length * 4).fill(false);
+        masterSchedule[i] = daySchedule;
+    }
+
+    weekDates = getWeekDates(currDate);
+    notCurrentWeekk =currDate >= weekDates[6];
 
     const handleClick: (dayIndex: number, hourIndex:number) => void = (dayIndex, hourIndex) => {
         if (startingTime == null)
@@ -208,6 +198,22 @@ function AnimalScheduleGrid(): React.ReactElement{
         }else
             setHoverLength(1);
     }
+
+    useEffect(() => {
+        if(endingTime && startingTime){
+            const tempMap: Map<string, number> = new Map(visitMap);
+            if(startingTime.hour < endingTime.hour)
+                tempMap.set(`${startingTime.day}-${startingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
+            else
+                tempMap.set(`${endingTime.day}-${endingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
+            setVisitMap(tempMap);
+        }
+        if(startingTime && endingTime)
+            console.log(convertTimeIndexToTimeString(startingTime).hour + "-" + convertTimeIndexToTimeString({hour:endingTime.hour + 1, day:endingTime.day}).hour+ " " + convertTimeIndexToTimeString(startingTime).day)
+        setStartingTime(null);
+        setEndingTime(null);
+    }, [endingTime]);
+
 
     return(
     <section className = {styles.scheduleGridContainer}>

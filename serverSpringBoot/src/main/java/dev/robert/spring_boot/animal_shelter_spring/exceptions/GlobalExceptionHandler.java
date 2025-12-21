@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOException(IOException ex){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro handling file:" + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error handling file:" + ex.getMessage());
     }
 
 

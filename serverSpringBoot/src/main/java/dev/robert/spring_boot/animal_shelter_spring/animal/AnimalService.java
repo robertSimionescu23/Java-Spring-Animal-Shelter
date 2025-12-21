@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -153,7 +152,7 @@ public class AnimalService extends ServiceBase<
         Path filePath = Paths.get(imagesPath.toString(), fileName);
 
         if(!Files.exists(filePath))
-            throw new FileNotFoundException("PictureURL does not correspond to file in image directory.");
+            throw new FileNotFoundException("PictureURL " + filePath +  " does not correspond to file in image directory.");
 
         return Files.readAllBytes(filePath);
     }
