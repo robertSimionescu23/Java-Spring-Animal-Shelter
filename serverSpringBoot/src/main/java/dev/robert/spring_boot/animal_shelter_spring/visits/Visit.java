@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 
 @ScheduleStartValidConstr
 @VisitDurationConstr
-// @ProgramConstr TODO: Look into this
+// TODO: @ProgramConstr  Look into this
 @Entity
 public class Visit {
     @Id

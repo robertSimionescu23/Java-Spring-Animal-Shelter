@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import dev.robert.spring_boot.animal_shelter_spring.base.classes.ControllerBase;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("api/v1/visit")
+@CrossOrigin(origins = "*")
 public class VisitController extends ControllerBase<
     Visit,
     VisitRequestDTO,

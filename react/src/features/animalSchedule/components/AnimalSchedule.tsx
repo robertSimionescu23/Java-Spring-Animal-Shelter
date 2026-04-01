@@ -17,8 +17,10 @@ function AnimalSchedule(): React.ReactElement {
     const params: Params = useParams<Params>() as Params;
 
     const [pictureUrl, setPictureUrl]           = useState<string | undefined>();
-    const [description, setDescription  ]           = useState<string | undefined>();
+    const [description, setDescription  ]       = useState<string | undefined>();
 
+
+    //Get animal info from backend server
     const getInfo: (id: string) => Promise<void> = async (id) =>{
         const res: Response<Animal>  = await axios.get(`http://localhost:8080/api/v1/animal/public/${id}`)
         if(res.data.pictureURLs)
@@ -27,7 +29,7 @@ function AnimalSchedule(): React.ReactElement {
             setDescription(res.data.description)
     };
 
-
+    //Get Animal info on load
     useEffect(()=>{
         getInfo(params.id);
     },[0]);
@@ -35,7 +37,7 @@ function AnimalSchedule(): React.ReactElement {
 
     return(
         <section className = {styles.mainWrapper}>
-            <AnimalScheduleGrid/>
+            <AnimalScheduleGrid id = {params.id} />
             {/* TODO:Make this be the photo from the backend */}
             {/* TODO: Make choosing the calendar date possibile*/}
             <div className={styles.animalAbout}>

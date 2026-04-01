@@ -1,8 +1,9 @@
 import {useState, useEffect} from "react";
 import styles from "./animalSchedule.module.css"
+import axios from "axios";
+import type Animal from "../../../components/Animal";
 
-
-    type TimeIndexed = {
+type TimeIndexed = {
     hour: number,
     day: number
 };
@@ -12,42 +13,50 @@ type TimeString = {
     day: string
 }
 
+type ScheduleEntry = {
+    startTime: string,
+    endTime  : string,
+    date     : string,
+    animalId : string,
+    duration : number
+}
 
 
-
-function AnimalScheduleGrid(): React.ReactElement{
+function AnimalScheduleGrid({ id }: { id: string }): React.ReactElement {
 
     const hours:string[]                = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
     const days:string[]                 = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const currDate:  Date               = new Date();
     const masterSchedule: boolean[][]   = [];
-    // const shownDate: Date               = new Date();
     const [scheduleGrid, setScheduleGrid] = useState<boolean[][]>(masterSchedule);
-    let   weekDates: Date[];
-    let notCurrentWeekk: boolean;
 
-
-    const [endingTime, setEndingTime]           = useState<TimeIndexed| null>(null);
-    const [startingTime, setStartingTime]       = useState<TimeIndexed| null>(null);
-    const [visitMap, setVisitMap]               = useState<Map<string, number>>(new Map());
-    const [hoverLength, setHoverLength]         = useState<number>(1);
-    const [tentativeStart, setTentativeStart]   = useState<TimeIndexed | null>(null);
-    const [isActive, setIsActive]               = useState<boolean>(false);
-
-
-
-    const getWeekDates: (date: Date) => Date[] = (date) =>{
+    const getWeekDates: (date: Date) => Date[] = (date) => {
         const temp: Date[] = [];
-        const mondayDate: Date = new Date();
-        mondayDate.setDate(date.getDate() - date.getDay() + 1)
 
-        for (let i:number = 0; i < 7; i++){
-            temp[i] = new Date();
-            temp[i].setDate(mondayDate.getDate() + i)
+        for (let i: number = 0; i < 7; i++) {
+            temp[i] = new Date(date); // Copy mondayDate, not new Date()
+            temp[i].setDate(date.getDate() + i);
         }
-
         return temp;
-    }
+    };
+
+
+    const [endingTime, setEndingTime]               = useState<TimeIndexed| null>(null);
+    const [startingTime, setStartingTime]           = useState<TimeIndexed| null>(null);
+    const [visitMap, setVisitMap]                   = useState<Map<string, number>>(new Map());
+    const [hoverLength, setHoverLength]             = useState<number>(1);
+    const [tentativeStart, setTentativeStart]       = useState<TimeIndexed | null>(null);
+    const [isActive, setIsActive]                   = useState<boolean>(false);
+    //Get first monday of the week displayed
+    const [startOfShownWeek, setStartOfShownWeek] = useState<Date>(() => {
+        const monday: Date = new Date();
+        monday.setDate(new Date().getDate() - new Date().getDay() + 1);
+        return monday;
+    });
+    const [weekDates, setWeekDates] = useState<Date[]>(getWeekDates(new Date()));
+
+
+
 
     const convertTimeIndexToTimeString: (time: TimeIndexed) => TimeString = (time) => {
         const timeString: TimeString = {hour: "", day: ""};
@@ -95,9 +104,6 @@ function AnimalScheduleGrid(): React.ReactElement{
         masterSchedule[i] = daySchedule;
     }
 
-    weekDates = getWeekDates(currDate);
-    notCurrentWeekk =currDate >= weekDates[6];
-
     const handleClick: (dayIndex: number, hourIndex:number) => void = (dayIndex, hourIndex) => {
         if (startingTime == null)
             setStartingTime({day:dayIndex, hour:hourIndex});
@@ -128,7 +134,6 @@ function AnimalScheduleGrid(): React.ReactElement{
                     if(scheduleGrid[dayIndex][i] == true){
                         lastFreeSlot = i - 1;
                         isFree = false;
-                        console.log(isFree)
                         break
                 }
 
@@ -208,19 +213,44 @@ function AnimalScheduleGrid(): React.ReactElement{
                 tempMap.set(`${endingTime.day}-${endingTime.hour}`, Math.abs(startingTime.hour - endingTime.hour) + 1);
             setVisitMap(tempMap);
         }
-        if(startingTime && endingTime)
-            console.log(convertTimeIndexToTimeString(startingTime).hour + "-" + convertTimeIndexToTimeString({hour:endingTime.hour + 1, day:endingTime.day}).hour+ " " + convertTimeIndexToTimeString(startingTime).day)
+        if(startingTime && endingTime){
+            //TODO: Add the isCancelled and VisitorName
+            const visit: ScheduleEntry = {
+                startTime: convertTimeIndexToTimeString(startingTime).hour,
+                // As a interval is 15 mins, by leaving "hour:endingTime.hour" unchaged, the head of the 15 minute interval will display
+                endTime: convertTimeIndexToTimeString({hour:endingTime.hour + 1, day:endingTime.day}).hour,
+                date: weekDates[endingTime.day].toISOString().split("T")[0], //Get a date in format year-month-day
+                animalId: id,
+                duration: Math.abs(endingTime.hour + 1 - startingTime.hour) * 15
+            }
+            //TODO: Send this to back end
+
+
+        console.log(visit)
         setStartingTime(null);
         setEndingTime(null);
+        }
     }, [endingTime]);
+
+    useEffect(() =>{
+        setWeekDates(getWeekDates(startOfShownWeek));
+    }, [startOfShownWeek])
 
 
     return(
     <section className = {styles.scheduleGridContainer}>
         <div className={styles.instructionText}>Please select the starting time of your intended visit and then, it's ending time.</div>
         <div>
-            <button>Next Week</button>
-            {notCurrentWeekk && <button>Previous Week</button>}
+            <button onClick = {() =>{
+                    const tempDate: Date = new Date(startOfShownWeek); tempDate.setDate(tempDate.getDate() + 7); setStartOfShownWeek(tempDate); console.log(startOfShownWeek)
+                }}>
+                    Next Week
+            </button >
+            {(startOfShownWeek > currDate) && <button onClick = {() =>{
+                    const tempDate: Date = new Date(startOfShownWeek); tempDate.setDate(tempDate.getDate() - 7); setStartOfShownWeek(tempDate); console.log(startOfShownWeek)
+                }}>
+                Previous Week
+            </button>}
         </div>
         <div className = {styles.scheduleControl} onMouseEnter={()=>setIsActive(true)} onMouseLeave={()=>{setIsActive(false); setTentativeStart(null)}}>
                 <div className = {`${styles.interSection} ${styles.gridElement}`}></div>
